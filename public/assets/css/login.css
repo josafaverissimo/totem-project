@@ -1,0 +1,18 @@
+body {
+    height: 100vh;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.row {
+    width: 70%;
+}
+
+button {
+    height: 3em;
+}
