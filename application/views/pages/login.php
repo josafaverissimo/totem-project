@@ -14,7 +14,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <form id="main-form">
+                <form id="main-form" method="post">
                     <div class="card border-primary">
                         <div class="card-header">
                             <h5 class="card-title text-center">Login</h5>
@@ -37,6 +37,7 @@
                         <button class="btn btn-primary" type="submit">
                             Enviar
                         </button>
+                        <a href="<?= site_url('register'); ?>">Criar novo usuario</a>
                     </div>
                 </form>
             </div>
