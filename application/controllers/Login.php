@@ -5,21 +5,26 @@ class Login extends CI_Controller
 {
 	public function index()
 	{
-		$this->load->library('aauth');
+		$data = [
+			"title" => "Relive",
+			"scripts" => [
+				"public/assets/js/login.js"
+			]
+		];
 
-		var_dump($this->aauth->is_loggedin());
-
-		$this->load->view('pages/login');
+		$this->load->view('pages/login', $data);
 	}
 
 	public function doLogin()
 	{
 		$this->load->library('aauth');
 
+		$post = $this->input->post();
+
+		$login_status = $this->aauth->login($post['email'], $post['password']) === true;
 
 		echo json_encode([
-			"post" => $_POST,
-			"login_status" => $this->aauth->login($_POST['email'], $_POST['password'])
+			"login_status" => $login_status
 		]);
 	}
 }

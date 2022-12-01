@@ -1,52 +1,48 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<?php $this->load->view("components/base_head"); ?>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login</title>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <!-- /.login-logo -->
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <h3>Login</h3>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">Logue para iniciar uma sessão</p>
 
-    <link rel="stylesheet" href="<?= base_url("public/assets/adminlte/dist/css/adminlte.min.css") ?>">
-    <link rel="stylesheet" href="<?= base_url("public/assets/css/login.css") ?>">
-</head>
-
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <form id="main-form" method="post">
-                    <div class="card border-primary">
-                        <div class="card-header">
-                            <h5 class="card-title text-center">Login</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-row">
-                                <div class="form-group col-12">
-                                    <label for="email">Email</label>
-                                    <input id="email" type="text" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group col-12">
-                                    <label for="password">Senha</label>
-                                    <input id="password" type="password" class="form-control">
-                                </div>
+                <form id="main-form">
+                    <div class="input-group mb-3">
+                        <input id="email" name="email" type="text" class="form-control" placeholder="Email">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
                             </div>
                         </div>
-                        <button class="btn btn-primary" type="submit">
-                            Enviar
-                        </button>
-                        <a href="<?= site_url('register'); ?>">Criar novo usuario</a>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input id="password" name="password" type="password" class="form-control" placeholder="Password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- /.col -->
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                        </div>
+                        <!-- /.col -->
                     </div>
                 </form>
             </div>
+            <!-- /.card-body -->
         </div>
+        <!-- /.card -->
     </div>
+    <!-- /.login-box -->
 
-    <script src="<?= base_url("public/assets/adminlte/plugins/jquery/jquery.min.js") ?>"></script>
-    <script src="<?= base_url("public/assets/adminlte/plugins/bootstrap/js/bootstrap.min.js") ?>"></script>
-    <script src="<?= base_url("public/assets/js/login.js") ?>"></script>
+    <?php $this->load->view("components/base_footer"); ?>
 </body>
 
 </html>

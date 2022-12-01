@@ -9,7 +9,11 @@ function doLogin(form) {
         method: "post",
         body: formData
     }).then(response => response.json())
-    .then(json => console.log(json))
+    .then(json => {
+        if(json.login_status) {
+            window.location.href = BASE_URL + "/dashboard"
+        }
+    })
 }
 
 document.addEventListener("DOMContentLoaded", () => {
