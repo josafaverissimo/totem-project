@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -83,66 +83,66 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config_aauth = array();
 
 $config_aauth["default"] = array(
- 'no_permission'                  => false,
+    'no_permission'                  => false,
 
- 'admin_group'                    => 'admin',
- 'default_group'                  => 'default',
- 'public_group'                   => 'public',
+    'admin_group'                    => 'admin',
+    'default_group'                  => 'default',
+    'public_group'                   => 'public',
 
- 'db_profile'                     => 'default',
+    'db_profile'                     => 'default',
 
- 'users'                          => 'aauth_users',
- 'groups'                         => 'aauth_groups',
- 'group_to_group'                 => 'aauth_group_to_group',
- 'user_to_group'                  => 'aauth_user_to_group',
- 'perms'                          => 'aauth_perms',
- 'perm_to_group'                  => 'aauth_perm_to_group',
- 'perm_to_user'                   => 'aauth_perm_to_user',
- 'pms'                            => 'aauth_pms',
- 'user_variables'                 => 'aauth_user_variables',
- 'login_attempts'                 => 'aauth_login_attempts',
+    'users'                          => 'aauth_users',
+    'groups'                         => 'aauth_groups',
+    'group_to_group'                 => 'aauth_group_to_group',
+    'user_to_group'                  => 'aauth_user_to_group',
+    'perms'                          => 'aauth_perms',
+    'perm_to_group'                  => 'aauth_perm_to_group',
+    'perm_to_user'                   => 'aauth_perm_to_user',
+    'pms'                            => 'aauth_pms',
+    'user_variables'                 => 'aauth_user_variables',
+    'login_attempts'                 => 'aauth_login_attempts',
 
- 'remember'                       => ' +3 days',
+    'remember'                       => ' +3 days',
 
- 'max'                            => 13,
- 'min'                            => 5,
+    'max'                            => 13,
+    'min'                            => 5,
 
- 'additional_valid_chars'         => array(),
+    'additional_valid_chars'         => array(),
 
- 'ddos_protection'                => true,
+    'ddos_protection'                => true,
 
- 'recaptcha_active'               => false,
- 'recaptcha_login_attempts'       => 4,
- 'recaptcha_siteKey'              => '',
- 'recaptcha_secret'               => '',
+    'recaptcha_active'               => false,
+    'recaptcha_login_attempts'       => 4,
+    'recaptcha_siteKey'              => '',
+    'recaptcha_secret'               => '',
 
- 'totp_active'                    => false,
- 'totp_only_on_ip_change'         => false,
- 'totp_reset_over_reset_password' => false,
- 'totp_two_step_login_active'     => false,
- 'totp_two_step_login_redirect'   => '/account/twofactor_verification/',
+    'totp_active'                    => false,
+    'totp_only_on_ip_change'         => false,
+    'totp_reset_over_reset_password' => false,
+    'totp_two_step_login_active'     => false,
+    'totp_two_step_login_redirect'   => '/account/twofactor_verification/',
 
- 'max_login_attempt'              => 10,
- 'max_login_attempt_time_period'  => "5 minutes",
- 'remove_successful_attempts'     => true,
+    'max_login_attempt'              => 10,
+    'max_login_attempt_time_period'  => "5 minutes",
+    'remove_successful_attempts'     => true,
 
- 'login_with_name'                => false,
+    'login_with_name'                => true,
 
- 'email'                          => 'admin@admin.com',
- 'name'                           => 'Emre Akay',
- 'email_config'                   => false,
+    'email'                          => 'admin@admin.com',
+    'name'                           => 'Emre Akay',
+    'email_config'                   => false,
 
- 'verification'                   => false,
- 'verification_link'              => '/account/verification/',
- 'reset_password_link'            => '/account/reset_password/',
+    'verification'                   => false,
+    'verification_link'              => '/account/verification/',
+    'reset_password_link'            => '/account/reset_password/',
 
- 'hash'                           => 'sha256',
- 'use_password_hash'              => false,
- 'password_hash_algo'             => PASSWORD_DEFAULT,
- 'password_hash_options'          => array(),
+    'hash'                           => 'sha256',
+    'use_password_hash'              => false,
+    'password_hash_algo'             => PASSWORD_DEFAULT,
+    'password_hash_options'          => array(),
 
- 'pm_encryption'                  => false,
- 'pm_cleanup_max_age'             => "3 months",
+    'pm_encryption'                  => false,
+    'pm_cleanup_max_age'             => "3 months",
 );
 
 $config['aauth'] = $config_aauth['default'];
