@@ -7,7 +7,11 @@ class Login extends CI_Controller
 	{
 		parent::__construct();
 
-		redirect("/dashboard");
+		$this->load->library("aauth");
+
+		if ($this->aauth->is_loggedin()) :
+			redirect("/dashboard");
+		endif;
 	}
 
 	public function index()
