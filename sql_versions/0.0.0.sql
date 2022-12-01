@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS `totem_project`;
 CREATE DATABASE `totem_project` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 USE `totem_project`;
