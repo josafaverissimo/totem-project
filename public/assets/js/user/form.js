@@ -1,19 +1,17 @@
-function doLogin(form) {
+function doCreate(form) {
     const formData = new FormData()
     
-    formData.append("email", form.email.value)
+    formData.append("name", form.name.value)
+    formData.append("cpf", form.cpf.value)
+    formData.append("cellphone", form.cellphone.value)
     formData.append("password", form.password.value)
 
 
-    fetch(base_url + "/login/doLogin", {
+    fetch(BASE_URL + "/user/create", {
         method: "post",
         body: formData
     }).then(response => response.json())
-    .then(json => {
-        if(json.login_status) {
-            window.location.href = BASE_URL + "/dashboard"
-        }
-    })
+    .then(json => console.log(json))
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -22,6 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
     mainForm.addEventListener('submit', event => {
         event.preventDefault()
 
-        doLogin(event.target)
+        doCreate(event.target)
     })
 })

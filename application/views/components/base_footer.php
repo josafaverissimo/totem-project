@@ -2,9 +2,13 @@
 <script src="<?= base_url("public/assets/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js") ?>"></script>
 <script src="<?= base_url("public/assets/adminlte/dist/js/adminlte.min.js") ?>"></script>
 
-<?php foreach ($scripts as $script) : ?>
-    <script src="<?= base_url($script); ?>"></script>
-<?php endforeach; ?>
+<?php
+if (isset($scripts)) :
+    foreach ($scripts as $script) :
+        echo '<script src="' . base_url($script) . '"></script>';
+    endforeach;
+endif;
+?>
 
 </body>
 
