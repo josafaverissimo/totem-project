@@ -5,7 +5,7 @@ function doLogin(form) {
     formData.append("password", form.password.value)
 
 
-    fetch(base_url + "/login/doLogin", {
+    fetch(BASE_URL + "/login/doLogin", {
         method: "post",
         body: formData
     }).then(response => response.json())
