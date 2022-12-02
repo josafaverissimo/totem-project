@@ -22,18 +22,14 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Dashboard</h1>
+                            <h1>Tabela de usuários</h1>
                         </div>
                     </div>
                 </div>
             </section>
             <section class="content">
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Title</h3>
-                    </div>
                     <div class="card-body">
-                        <button>add user</button>
                         <table class="main-table table table-striped table-bordered table-hover display">
                             <thead>
                                 <tr>
@@ -61,22 +57,10 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="card-footer">
-                        Footer
-                    </div>
                 </div>
             </section>
         </div>
-
-        <footer class="main-footer"></footer>
-
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
     </div>
-    <!-- ./wrapper -->
 
 
     <?php $this->load->view("components/base_footer"); ?>

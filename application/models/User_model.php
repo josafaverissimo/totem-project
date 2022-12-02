@@ -38,8 +38,9 @@ class User_model extends CI_Model
 
     public function getAll()
     {
-        $this->db->select("*");
-        $this->db->from($this->table);
+        $this->db->select("tu.id, tu.name, tu.cpf, tu.cellphone");
+        $this->db->from($this->table . " tu");
+        $this->db->order_by("tu.id", "desc");
 
         return $this->db->get()->result();
     }

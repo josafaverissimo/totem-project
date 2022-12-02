@@ -1,0 +1,11 @@
+.flex {
+    display: flex;
+}
+
+.flex-jbet {
+    justify-content: space-between;
+}
+
+.flex-icent {
+    align-items: center;
+}

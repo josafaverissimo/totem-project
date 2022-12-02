@@ -24,6 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 "sortDescending": "Ordenar colunas de forma decrescente"
             }
         },
-        "dom": 'ft<"datatables__pagination_information_range"pi<"mt-3"l>>'
+        "dom": '<"datatables__filter flex flex-jbet flex-icent"f>t<"datatables__pagination_information_range"pi<"mt-3"l>>',
+        "order": [[0, "desc"]]
     })
+
+    const linkToForm = '<div class="pd-3"><a href="' + BASE_URL +'user/form" class="btn btn-outline-primary btn-sm">Adicionar</a></div>'
+
+    $(".datatables__filter").prepend(linkToForm)
 })
