@@ -33,7 +33,8 @@
                         <h3 class="card-title">Title</h3>
                     </div>
                     <div class="card-body">
-                        <table class="main-table table table-striped table-borderless table-hover display">
+                        <button>add user</button>
+                        <table class="main-table table table-striped table-bordered table-hover display">
                             <thead>
                                 <tr>
                                     <th>id</th>
@@ -44,8 +45,14 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($users as $user) : ?>
-                                    <tr>
-                                        <td><?= $user->id; ?></td>
+                                    <tr class="control">
+                                        <td>
+                                            <div class="buttons-control">
+                                                <span class="edit"><i class="fas fa-edit"></i></span>
+                                                <span class="delete"><i class="fas fa-trash"></i></span>
+                                            </div>
+                                            <span class="table-td-text"><?= $user->id; ?></span>
+                                        </td>
                                         <td><?= $user->name ?></td>
                                         <td><?= $user->cpf; ?></td>
                                         <td><?= $user->cellphone; ?></td>

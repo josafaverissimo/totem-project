@@ -24,6 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 "sortDescending": "Ordenar colunas de forma decrescente"
             }
         },
-        "dom": 'ft<"datatables__range"li>p'
+        "dom": 'ft<"datatables__pagination_information_range"pi<"mt-3"l>>'
     })
 })

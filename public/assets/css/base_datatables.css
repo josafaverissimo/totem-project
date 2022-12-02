@@ -1,7 +1,37 @@
-.datatables__range {
+.control .buttons-control {
+    display: none;
+}
+
+.control:hover .buttons-control {
+    display: flex;
+    justify-content: center;
+}
+
+.control:hover .table-td-text {
+    display: none;
+}
+
+.buttons-control .edit, .buttons-control .delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px -25px;
+    font-size: 1.2rem;
+    cursor:pointer;
+    padding: 3px 20px;
+    margin: 0 5px;
+    border-radius: 3px;
+    background-color: #a5a5a5;
+
+}
+
+.card-body {
+    font-size: 0.9rem;
+}
+
+.datatables__pagination_information_range {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
-    margin-top: 20px;
-
+    align-items: center;
 }
