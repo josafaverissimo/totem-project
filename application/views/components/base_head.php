@@ -12,6 +12,14 @@
     <link rel="stylesheet" href="<?= base_url("public/assets/adminlte/plugins/fontawesome-free/css/all.min.css") ?>">
     <link rel="stylesheet" href="<?= base_url("public/assets/adminlte/dist/css/adminlte.min.css") ?>">
 
+    <?php
+    if (isset($styles)) :
+        foreach ($styles as $style) :
+            echo '<link rel="stylesheet" href="' . base_url($style) . '">';
+        endforeach;
+    endif;
+    ?>
+
     <script>
         const BASE_URL = "<?= base_url(); ?>"
     </script>

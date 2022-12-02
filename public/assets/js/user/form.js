@@ -11,7 +11,13 @@ function doCreate(form) {
         method: "post",
         body: formData
     }).then(response => response.json())
-    .then(json => console.log(json))
+    .then(json => {
+        if(json.success) {
+            swal("Sucesso", json.message, "success")
+        } else {
+            swal("Erro", json.message, "error")
+        }
+    })
 }
 
 document.addEventListener("DOMContentLoaded", () => {

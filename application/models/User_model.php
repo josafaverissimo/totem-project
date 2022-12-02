@@ -35,4 +35,12 @@ class User_model extends CI_Model
             return true;
         endif;
     }
+
+    public function getAll()
+    {
+        $this->db->select("*");
+        $this->db->from($this->table);
+
+        return $this->db->get()->result();
+    }
 }
