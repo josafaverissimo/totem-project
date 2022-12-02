@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "order": [[0, "desc"]]
     })
 
-    const linkToForm = '<div class="pd-3"><a href="' + BASE_URL +'user/form" class="btn btn-outline-primary btn-sm">Adicionar</a></div>'
+    const linkToForm = '<div class="pd-3"><a href="' + BASE_URL +'user/form" class="btn btn-outline-dark btn-sm">Adicionar</a></div>'
 
     $(".datatables__filter").prepend(linkToForm)
 })

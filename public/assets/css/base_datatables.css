@@ -22,7 +22,12 @@
     margin: 0 5px;
     border-radius: 3px;
     background-color: #a5a5a5;
+    transition: .4s;
 
+}
+
+.buttons-control .edit:hover, .buttons-control .delete:hover {
+    background-color: #757575;
 }
 
 .card-body {
