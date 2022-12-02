@@ -23,10 +23,32 @@ class User extends CI_Controller
     }
 
 
-    public function form()
+    public function form($userHash = null)
     {
+        $user = [
+            "id" => null,
+            "name" => null,
+            "cpf" => null,
+            "cellphone" => null,
+            "hash" => null,
+        ];
+
+        $editMode = !empty($userHash);
+
+        $formAction = $editMode ? base_url("user/edit") : base_url("user/create");
+
+        if ($editMode) :
+            $this->load->model("User_model", "user");
+
+            $user = $this->user->getByHash($userHash);
+        endif;
+
+
         $data = [
             "title" => "Relive",
+            "user" => $user,
+            "editMode" => $editMode,
+            "formAction" => $formAction,
             "scripts" => [
                 "public/assets/js/user/form.js",
                 "public/assets/js/sweetalert.js"
@@ -61,5 +83,10 @@ class User extends CI_Controller
             "success" => $success,
             "message" => $message
         ]);
+    }
+
+    public function edit()
+    {
+        echo "hello edit";
     }
 }

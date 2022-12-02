@@ -29,6 +29,16 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     const linkToForm = '<div class="pd-3"><a href="' + BASE_URL +'user/form" class="btn btn-outline-dark btn-sm">Adicionar</a></div>'
-
     $(".datatables__filter").prepend(linkToForm)
+
+    document.querySelector(".buttons-control .edit").addEventListener("click", function(event) {
+        const element = event.target
+        let hash = element.parentNode.dataset.hash
+
+        if(hash === undefined) {
+            hash = element.parentNode.parentNode.dataset.hash
+        }
+
+        window.location.href = BASE_URL + "user/form/" + hash
+    })
 })

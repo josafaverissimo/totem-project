@@ -43,8 +43,8 @@
                                 <?php foreach ($users as $user) : ?>
                                     <tr class="control">
                                         <td>
-                                            <div class="buttons-control">
-                                                <span class="edit"><i class="fas fa-edit"></i></span>
+                                            <div class="buttons-control" data-hash="<?= $user->hash; ?>">
+                                                <span class="edit"><i class="fas fa-edit"></i></span></a>
                                                 <span class="delete"><i class="fas fa-trash"></i></span>
                                             </div>
                                             <span class="table-td-text"><?= $user->id; ?></span>

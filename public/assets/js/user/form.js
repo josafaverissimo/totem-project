@@ -7,7 +7,7 @@ function doCreate(form) {
     formData.append("password", form.password.value)
 
 
-    fetch(BASE_URL + "/user/create", {
+    fetch(form.action, {
         method: "post",
         body: formData
     }).then(response => response.json())

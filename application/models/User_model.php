@@ -20,7 +20,8 @@ class User_model extends CI_Model
             "name" => $name,
             "cpf" => $cpf,
             "cellphone" => $cellphone,
-            "aauth_user_id" => $aauth_user_id
+            "aauth_user_id" => $aauth_user_id,
+            "hash" => md5($cpf)
         ];
 
         $this->db->insert($this->table, $data);
@@ -36,9 +37,18 @@ class User_model extends CI_Model
         endif;
     }
 
+    public function getByHash($hash)
+    {
+        $this->db->select("tu.id, tu.name, tu.cpf, tu.cellphone, tu.hash");
+        $this->db->from($this->table . " tu");
+        $this->db->where("tu.hash", $hash);
+
+        return $this->db->get()->row_array();
+    }
+
     public function getAll()
     {
-        $this->db->select("tu.id, tu.name, tu.cpf, tu.cellphone");
+        $this->db->select("tu.id, tu.name, tu.cpf, tu.cellphone, tu.hash");
         $this->db->from($this->table . " tu");
         $this->db->order_by("tu.id", "desc");
 
