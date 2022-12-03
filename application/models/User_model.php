@@ -12,7 +12,8 @@ class User_model extends CI_Model
 
         $this->table = "totem_users";
     }
-    public function create($name, $cpf, $cellphone, $aauth_user_id)
+
+    public function create($name, $cpf, $cellphone, $aauth_user_id): bool
     {
         $this->db->trans_begin();
 

@@ -1,6 +1,4 @@
 <?php $this->load->view("components/base_head"); ?>
-
-<body class="hold-transition sidebar-mini">
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
@@ -32,28 +30,28 @@
                     <div class="card-body">
                         <table class="main-table table table-striped table-bordered table-hover display">
                             <thead>
-                                <tr>
-                                    <th>id</th>
-                                    <th>nome</th>
-                                    <th>cpf</th>
-                                    <th>telefone</th>
-                                </tr>
+                            <tr>
+                                <th>id</th>
+                                <th>nome</th>
+                                <th>cpf</th>
+                                <th>telefone</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($users as $user) : ?>
-                                    <tr class="control">
-                                        <td>
-                                            <div class="buttons-control" data-hash="<?= $user->hash; ?>">
-                                                <span class="edit"><i class="fas fa-edit"></i></span></a>
-                                                <span class="delete"><i class="fas fa-trash"></i></span>
-                                            </div>
-                                            <span class="table-td-text"><?= $user->id; ?></span>
-                                        </td>
-                                        <td><?= $user->name ?></td>
-                                        <td><?= $user->cpf; ?></td>
-                                        <td><?= $user->cellphone; ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
+                            <?php foreach ($users as $user) : ?>
+                                <tr class="control">
+                                    <td>
+                                        <div class="buttons-control" data-hash="<?= $user->hash; ?>">
+                                            <span class="edit"><i class="fas fa-edit"></i></span></a>
+                                            <span class="delete"><i class="fas fa-trash"></i></span>
+                                        </div>
+                                        <span class="table-td-text"><?= $user->id; ?></span>
+                                    </td>
+                                    <td><?= $user->name ?></td>
+                                    <td><?= $user->cpf; ?></td>
+                                    <td><?= $user->cellphone; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -63,4 +61,4 @@
     </div>
 
 
-    <?php $this->load->view("components/base_footer"); ?>
+<?php $this->load->view("components/base_footer"); ?>

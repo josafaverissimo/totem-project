@@ -3,39 +3,42 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Login extends CI_Controller
 {
-	public function __construct()
-	{
-		parent::__construct();
 
-		$this->load->library("aauth");
+    public function __construct()
+    {
+        parent::__construct();
 
-		if ($this->aauth->is_loggedin()) :
-			redirect("/dashboard");
-		endif;
-	}
+        $this->load->library("aauth");
 
-	public function index()
-	{
-		$data = [
-			"title" => "Relive",
-			"scripts" => [
-				"public/assets/js/login.js"
-			]
-		];
+        if ($this->aauth->is_loggedin()) :
+            //redirect("/dashboard");
+        endif;
+    }
 
-		$this->load->view('pages/login', $data);
-	}
+    public function index()
+    {
+        $data = [
+            "title" => "Relive",
+            "scripts" => [
+                "public/assets/js/login.js",
+                "public/assets/js/formvalidation.js"
+            ],
+            "bodyClasses" => "hold-transition login-page"
+        ];
 
-	public function doLogin()
-	{
-		$this->load->library('aauth');
+        $this->load->view('pages/login', $data);
+    }
 
-		$post = $this->input->post();
+    public function doLogin()
+    {
+        $this->load->library('aauth');
 
-		$login_status = $this->aauth->login($post['email'], $post['password']) === true;
+        $post = $this->input->post();
 
-		echo json_encode([
-			"login_status" => $login_status
-		]);
-	}
+        $login_status = $this->aauth->login($post['user'], $post['password']) === true;
+
+        echo json_encode([
+            "login_status" => $login_status
+        ]);
+    }
 }
