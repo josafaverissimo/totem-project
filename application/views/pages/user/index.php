@@ -1,19 +1,9 @@
 <?php $this->load->view("components/base_head"); ?>
-    <!-- Site wrapper -->
+    
     <div class="wrapper">
-        <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                </li>
-            </ul>
-        </nav>
-        <!-- /.navbar -->
-
+        <?php $this->load->view("components/navbar"); ?>
 
         <?php $this->load->view("components/sidebar"); ?>
-
 
         <div class="content-wrapper">
             <section class="content-header">
@@ -59,6 +49,5 @@
             </section>
         </div>
     </div>
-
 
 <?php $this->load->view("components/base_footer"); ?>

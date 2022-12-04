@@ -3,25 +3,28 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Login extends CI_Controller
 {
-
     public function __construct()
     {
         parent::__construct();
 
         $this->load->library("aauth");
-
-        if ($this->aauth->is_loggedin()) :
-            //redirect("/dashboard");
-        endif;
     }
 
     public function index()
     {
+        if ($this->aauth->is_loggedin()) :
+            redirect("/dashboard");
+        endif;
+
         $data = [
             "title" => "Relive",
+            "styles" => [
+                "public/assets/css/toastify.css"
+            ],
             "scripts" => [
                 "public/assets/js/login.js",
-                "public/assets/js/formvalidation.js"
+                "public/assets/js/formvalidation.js",
+                "public/assets/js/toastify.js"
             ],
             "bodyClasses" => "hold-transition login-page"
         ];
@@ -35,10 +38,26 @@ class Login extends CI_Controller
 
         $post = $this->input->post();
 
-        $login_status = $this->aauth->login($post['user'], $post['password']) === true;
+        $message = "";
+        $loginOperation = $this->aauth->login($post['user'], $post['password']) === true;
 
-        echo json_encode([
-            "login_status" => $login_status
-        ]);
+        if (!$loginOperation) {
+            $message = "Usuário ou senha incorretos.";
+        }
+
+        $loginStatus = [
+            "loginOperation" => $loginOperation,
+            "message" => $message
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($loginStatus);
+    }
+
+    public function doLogout()
+    {
+        $this->aauth->logout();
+
+        redirect("/login");
     }
 }

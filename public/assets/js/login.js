@@ -1,3 +1,11 @@
+function submitForm(form) {
+    const validation = formValidation(form)
+
+    if (validation.required()) {
+        doLogin(form)
+    }
+}
+
 function doLogin(form) {
     const formData = new FormData()
 
@@ -8,12 +16,23 @@ function doLogin(form) {
     fetch(form.action, {
         method: "post",
         body: formData
-    }).then(response => response.json())
-        .then(json => {
-            if (json.login_status) {
-                window.location.href = BASE_URL + "dashboard"
-            }
-        })
+    }).then(function (response) {
+        return response.json()
+
+    }).then(function (json) {
+        if (json.loginOperation) {
+            window.location.href = BASE_URL + "dashboard"
+        } else {
+            Toastify({
+                text: json.message,
+                gravity: "top",
+                position: "center",
+                style: {
+                    background: "linear-gradient(to right, #9b000b, #cd000b)",
+                }
+            }).showToast();
+        }
+    })
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -22,8 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mainForm.addEventListener('submit', event => {
         event.preventDefault()
 
-        // doLogin(event.target)
-        formvalidation(event.target)
+        submitForm(event.target)
     })
 
 })

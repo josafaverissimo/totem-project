@@ -1,22 +1,41 @@
-function formvalidation(form) {
+function formValidation(form) {
     const inputs = form.querySelectorAll("input")
 
-    const validation = {
-        showError: function (input, message) {
-            const inputError = document.querySelector("#" + input.id + "-input-error")
+    function getTextError(inputId) {
+        return document.querySelector("#" + inputId + "-input-error")
+    }
 
-            if (inputError !== null) {
-                document.querySelector("#" + input.id + "-input-error").textContent = message
-                document.querySelector("#" + input.id + "-input-error").removeAttribute("hidden")
-            }
-        },
+    function showError(input, message) {
+        const textError = getTextError(input.id)
+
+        if (textError !== null) {
+            input.classList.add("input-error")
+            textError.textContent = message
+            textError.removeAttribute("hidden")
+        }
+    }
+
+    function hiddenError(input) {
+        const textError = getTextError(input.id)
+
+        if (textError !== null) {
+            input.classList.remove("input-error")
+            textError.setAttribute("hidden", "")
+        }
+    }
+
+    const validation = {
         required: function () {
-            function getUnfilledInputs() {
-                const inputsRequired = [].filter.call(inputs, function (input) {
+            function getRequiredInputs() {
+                return [].filter.call(inputs, function (input) {
                     return input.hasAttribute("required")
                 })
+            }
 
-                return [].reduce.call(inputsRequired, function (unfilledInputs, input) {
+            function getUnfilledInputs() {
+                const requiredInputs = getRequiredInputs()
+
+                return [].reduce.call(requiredInputs, function (unfilledInputs, input) {
                     if (input.value === "") {
                         unfilledInputs.push(input)
                     }
@@ -25,11 +44,38 @@ function formvalidation(form) {
                 }, [])
             }
 
-            getUnfilledInputs().forEach(function (input) {
-                validation.showError(input, "O campo é obrigatório")
-            })
+            function getFilledInputs() {
+                const requiredInputs = getRequiredInputs()
+
+                return [].reduce.call(requiredInputs, function (filledInputs, input) {
+                    if (input.value !== "") {
+                        filledInputs.push(input)
+                    }
+
+                    return filledInputs
+                }, [])
+            }
+
+            function showRequiredError(input) {
+                showError(input, "O campo é obrigatório")
+            }
+
+            const unfilledInputs = getUnfilledInputs()
+            const filledInputs = getFilledInputs()
+
+            if (filledInputs.length !== 0) {
+                filledInputs.forEach(hiddenError)
+            }
+
+            if (unfilledInputs.length !== 0) {
+                unfilledInputs.forEach(showRequiredError)
+
+                return false
+            }
+
+            return true
         }
     }
 
-    validation.required()
+    return validation
 }
