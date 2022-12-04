@@ -49,9 +49,14 @@ class User extends CI_Controller
             "user" => $user,
             "editMode" => $editMode,
             "formAction" => $formAction,
+            "styles" => [
+                "public/assets/css/toastify.css"
+            ],
             "scripts" => [
+                "public/assets/js/formvalidation.js",
+                "public/assets/js/toastify.js",
+                "public/assets/js/helpers.js",
                 "public/assets/js/user/form.js",
-                "public/assets/js/sweetalert.js"
             ]
         ];
 
@@ -68,6 +73,21 @@ class User extends CI_Controller
         if (!empty($post)) :
             $this->load->model('User_model', 'user');
             $this->load->library('aauth');
+            $this->load->library('form_validation');
+
+            $this->form_validation->set_rules("name", 'Nome', 'trim|required');
+            $this->form_validation->set_rules("cpf", 'Cpf', 'required|is_unique[totem_users.cpf]');
+            $this->form_validation->set_rules("cellphone", "Telefone", "trim|required");
+            $this->form_validation->set_rules("password", "Senha", "required", [
+                "required" => "O campo Senha é obrigatório"
+            ]);
+
+            if ($this->form_validation->run() == FALSE):
+                header("Content-Type: application/json");
+                echo json_encode($this->form_validation->error_array());
+
+                return;
+            endif;
 
             $aauth_user_id = $this->aauth->create_user($post['cpf'] . "@mail.com", $post['password'], $post['cpf']);
 

@@ -23,14 +23,7 @@ function doLogin(form) {
         if (json.loginOperation) {
             window.location.href = BASE_URL + "dashboard"
         } else {
-            Toastify({
-                text: json.message,
-                gravity: "top",
-                position: "center",
-                style: {
-                    background: "linear-gradient(to right, #9b000b, #cd000b)",
-                }
-            }).showToast();
+            toastify(json.message, "failed")
         }
     })
 }

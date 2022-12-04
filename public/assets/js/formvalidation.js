@@ -70,6 +70,8 @@ function formValidation(form) {
             if (unfilledInputs.length !== 0) {
                 unfilledInputs.forEach(showRequiredError)
 
+                toastify("Há erros no formulário", "failed")
+
                 return false
             }
 

@@ -22,10 +22,10 @@ class Login extends CI_Controller
                 "public/assets/css/toastify.css"
             ],
             "scripts" => [
-                "public/assets/js/login.js",
                 "public/assets/js/formvalidation.js",
                 "public/assets/js/toastify.js",
-                "public/assets/js/helpers.js"
+                "public/assets/js/helpers.js",
+                "public/assets/js/login.js"
             ],
             "bodyClasses" => "hold-transition login-page"
         ];

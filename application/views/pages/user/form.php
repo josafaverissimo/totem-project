@@ -1,15 +1,7 @@
 <?php $this->load->view("components/base_head"); ?>
 
-<body class="hold-transition sidebar-mini">
     <div class="wrapper">
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                </li>
-            </ul>
-        </nav>
-
+        <?php $this->load->view("components/navbar"); ?>
 
         <?php $this->load->view("components/sidebar"); ?>
 
@@ -37,20 +29,26 @@
                     <div class="card-header">
                         <h3 class="card-title">Formulário</h3>
                     </div>
-                    <form id="main-form" action="<?= $formAction ?>">
+                    <form id="main-form" action="<?= $formAction ?>" novalidate>
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">Nome</label>
-                                <input id="name" name="name" type="text" class="form-control" value="<?= $user['name'] ?>">
+                                <input id="name" name="name" type="text" class="form-control"
+                                       value="<?= $user['name'] ?>" required>
+                                <p id="name-input-error" class="input-error-message mt-1" hidden></p>
 
                             </div>
                             <div class="form-group">
                                 <label for="cpf">CPF</label>
-                                <input id="cpf" name="cpf" type="text" class="form-control" value="<?= $user['cpf'] ?>">
+                                <input id="cpf" name="cpf" type="text" class="form-control" value="<?= $user['cpf'] ?>"
+                                       required>
+                                <p id="cpf-input-error" class="input-error-message mt-1" hidden></p>
                             </div>
                             <div class="form-group">
                                 <label for="cellphone">Cellphone</label>
-                                <input id="cellphone" name="cellphone" type="text" class="form-control" value="<?= $user['cellphone'] ?>">
+                                <input id="cellphone" name="cellphone" type="text" class="form-control"
+                                       value="<?= $user['cellphone'] ?>" required>
+                                <p id="cellphone-input-error" class="input-error-message mt-1" hidden></p>
                             </div>
                             <div class="form-group">
                                 <label for="password">
@@ -62,7 +60,8 @@
                                     endif;
                                     ?>
                                 </label>
-                                <input id="password" name="password" type="password" class="form-control">
+                                <input id="password" name="password" type="password" class="form-control" required>
+                                <p id="password-input-error" class="input-error-message mt-1" hidden></p>
                             </div>
                         </div>
 
@@ -83,5 +82,4 @@
         </div>
     </div>
 
-
-    <?php $this->load->view("components/base_footer"); ?>
+<?php $this->load->view("components/base_footer"); ?>
