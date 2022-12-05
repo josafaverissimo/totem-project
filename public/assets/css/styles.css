@@ -14,6 +14,10 @@
     align-items: center;
 }
 
+.flex-cdir {
+    flex-direction: column;
+}
+
 .input-error-message {
     color: red;
     font-size: 0.8rem;
@@ -34,4 +38,8 @@
     position: absolute;
     z-index: 1;
     opacity: 0.5;
+}
+
+.bd-b {
+    border-bottom: 1px solid #4b545c;
 }
