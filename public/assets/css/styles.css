@@ -25,7 +25,7 @@
     border-color: rgba(255, 0, 0, .5);
 }
 
-.disabled::before {
+.my_disabled::before {
     content: '';
     display: block;
     width: 100%;

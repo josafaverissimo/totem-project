@@ -3,12 +3,12 @@ function submitForm(form) {
     const wrapperElement = document.querySelector(form.dataset.wrapperSelector)
 
     if (validation.required()) {
-        wrapperElement.classList.add("disabled");
+        wrapperElement.classList.add("my_disabled");
 
         doCreate(form)
 
         setTimeout(function () {
-            wrapperElement.classList.remove("disabled");
+            wrapperElement.classList.remove("my_disabled");
         }, 2000)
     }
 }
