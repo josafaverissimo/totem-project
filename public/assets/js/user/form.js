@@ -1,6 +1,14 @@
+function submitForm(form) {
+    const validation = formValidation(form)
+
+    if (validation.required()) {
+        doCreate(form)
+    }
+}
+
 function doCreate(form) {
     const formData = new FormData()
-    
+
     formData.append("name", form.name.value)
     formData.append("cpf", form.cpf.value)
     formData.append("cellphone", form.cellphone.value)
@@ -10,13 +18,16 @@ function doCreate(form) {
     fetch(form.action, {
         method: "post",
         body: formData
-    }).then(response => response.json())
-    .then(json => {
-        if(json.success) {
-            swal("Sucesso", json.message, "success")
+    }).then(function (response) {
+        return response.json()
+
+    }).then(function (json) {
+        if (json.success) {
+            toastify(json.message, "success")
         } else {
-            swal("Erro", json.message, "error")
+            toastify(json.message, "failed")
         }
+
     })
 }
 
@@ -26,6 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
     mainForm.addEventListener('submit', event => {
         event.preventDefault()
 
+        // submitForm(event.target)
         doCreate(event.target)
     })
+
 })

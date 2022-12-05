@@ -2,10 +2,25 @@
     display: flex;
 }
 
+.flex-jcent {
+    justify-content: center;
+}
+
 .flex-jbet {
     justify-content: space-between;
 }
 
 .flex-icent {
     align-items: center;
+}
+
+.input-error-message {
+    color: red;
+    font-size: 0.8rem;
+    margin-left: 5px;
+}
+
+.input-error {
+    box-shadow: 0 0 0 2px rgba(255, 0, 0, .3);
+    border-color: rgba(255, 0, 0, .5);
 }

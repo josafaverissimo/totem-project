@@ -1,17 +1,29 @@
+function submitForm(form) {
+    const validation = formValidation(form)
+
+    if (validation.required()) {
+        doLogin(form)
+    }
+}
+
 function doLogin(form) {
     const formData = new FormData()
-    
-    formData.append("email", form.email.value)
+
+    formData.append("user", form.user.value)
     formData.append("password", form.password.value)
 
 
-    fetch(BASE_URL + "/login/doLogin", {
+    fetch(form.action, {
         method: "post",
         body: formData
-    }).then(response => response.json())
-    .then(json => {
-        if(json.login_status) {
-            window.location.href = BASE_URL + "/dashboard"
+    }).then(function (response) {
+        return response.json()
+
+    }).then(function (json) {
+        if (json.loginOperation) {
+            window.location.href = BASE_URL + "dashboard"
+        } else {
+            toastify(json.message, "failed")
         }
     })
 }
@@ -22,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mainForm.addEventListener('submit', event => {
         event.preventDefault()
 
-        doLogin(event.target)
+        submitForm(event.target)
     })
+
 })

@@ -1,8 +1,10 @@
 <?php $this->load->view("components/base_head"); ?>
 
-<body class="hold-transition login-page">
     <div class="login-box">
-        <!-- /.login-logo -->
+        <div class="mb-2 flex flex-jcent">
+            <img src="<?= base_url("public/assets/imgs/LOGO-02.png"); ?>" class="rounded"
+                 style="width: 175px; height: 175px;">
+        </div>
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
                 <h3>Login</h3>
@@ -10,39 +12,40 @@
             <div class="card-body">
                 <p class="login-box-msg">Logue para iniciar uma sessão</p>
 
-                <form id="main-form">
-                    <div class="input-group mb-3">
-                        <input id="email" name="email" type="text" class="form-control" placeholder="Email">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
+                <form id="main-form" action="<?= base_url("login/doLogin"); ?>" novalidate>
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <input id="user" name="user" type="text" class="form-control" placeholder="Usuário"
+                                   required>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
                             </div>
                         </div>
+                        <p id="user-input-error" class="input-error-message mt-1" hidden></p>
                     </div>
-                    <div class="input-group mb-3">
-                        <input id="password" name="password" type="password" class="form-control" placeholder="Password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <input id="password" name="password" type="password" class="form-control"
+                                   placeholder="Password"
+                                   required>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
                             </div>
                         </div>
+                        <p id="password-input-error" class="input-error-message mt-1" hidden></p>
                     </div>
                     <div class="row">
-                        <!-- /.col -->
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
                         </div>
-                        <!-- /.col -->
                     </div>
                 </form>
             </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
     </div>
-    <!-- /.login-box -->
 
-    <?php $this->load->view("components/base_footer"); ?>
-</body>
-
-</html>
+<?php $this->load->view("components/base_footer"); ?>
