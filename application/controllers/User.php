@@ -20,6 +20,7 @@ class User extends CI_Controller
         ];
 
         $this->load->view('pages/user/index', $data);
+
     }
 
 
