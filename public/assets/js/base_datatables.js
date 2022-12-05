@@ -1,5 +1,7 @@
+let mainDatatable = null
+
 document.addEventListener("DOMContentLoaded", () => {
-    $(".main-table").DataTable({
+    mainDatatable = $(".main-table").DataTable({
         "language": {
             "decimal": "",
             "emptyTable": "Nenhum dado na tabela",
@@ -34,13 +36,37 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".buttons-control .edit").forEach(function (button) {
         button.addEventListener("click", function (event) {
             const element = event.target
-            let hash = element.parentNode.dataset.hash
-
-            if (hash === undefined) {
-                hash = element.parentNode.parentNode.dataset.hash
-            }
+            let hash = element.closest("[data-hash]").dataset.hash
 
             window.location.href = BASE_URL + "user/form/" + hash
+        })
+    })
+
+    document.querySelectorAll(".buttons-control .delete").forEach(function (button) {
+        button.addEventListener("click", function (event) {
+            const deleteButton = document.getElementById("delete-button")
+            const element = event.target
+            const hash = element.closest("[data-hash]").dataset.hash
+            const deleteModalRow = document.querySelector(".delete-modal-row")
+            const row = element.closest("tr")
+
+            row.setAttribute("id", "delete-row")
+
+            deleteModalRow.innerHTML = ''
+            row.querySelectorAll("td").forEach(function (td) {
+                const data = td.textContent
+                    .replace(/ +/g, " ")
+                    .replace(/^ /, "")
+
+                const newTdElement = document.createElement("td")
+                newTdElement.textContent = data
+
+                deleteModalRow.append(newTdElement)
+            })
+
+            deleteButton.setAttribute("data-hash", hash)
+
+            $("#delete-modal").modal("show")
         })
     })
 })

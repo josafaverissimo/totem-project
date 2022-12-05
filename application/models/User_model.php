@@ -126,4 +126,40 @@ class User_model extends CI_Model
 
         return $this->db->get()->result();
     }
+
+    public function delete($id)
+    {
+        $this->db->trans_begin();
+
+        $this->db->where("id", $id);
+        $this->db->delete($this->table);
+
+        if ($this->db->trans_status() === false) :
+            $this->db->trans_rollback();
+
+            return false;
+        else :
+            $this->db->trans_commit();
+
+            return true;
+        endif;
+    }
+
+    public function deleteAauthUser($id)
+    {
+        $this->db->trans_begin();
+
+        $this->db->where("id", $id);
+        $this->db->delete("aauth_users");
+
+        if ($this->db->trans_status() === false) :
+            $this->db->trans_rollback();
+
+            return false;
+        else :
+            $this->db->trans_commit();
+
+            return true;
+        endif;
+    }
 }

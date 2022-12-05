@@ -11,11 +11,15 @@ class User extends CI_Controller
             "users" => $this->user->getAll(),
             "styles" => [
                 "public/assets/css/base_datatables.css",
-                "public/assets/datatables/css/datatables.css"
+                "public/assets/datatables/css/datatables.css",
+                "public/assets/css/toastify.css"
             ],
             "scripts" => [
                 "public/assets/datatables/js/datatables.js",
-                "public/assets/js/base_datatables.js"
+                "public/assets/js/base_datatables.js",
+                "public/assets/js/toastify.js",
+                "public/assets/js/helpers.js",
+                "public/assets/js/user/index.js"
             ]
         ];
 
@@ -152,6 +156,7 @@ class User extends CI_Controller
             endif;
         endif;
 
+        header("Content-type: application/json");
         echo json_encode($message);
     }
 
@@ -244,6 +249,39 @@ class User extends CI_Controller
             endif;
         endif;
 
+        header("Content-type: application/json");
         echo json_encode($message);
+    }
+
+    public function delete($hash)
+    {
+        $this->load->model("User_model", "user");
+
+        $response = [
+            "success" => false,
+            "messages" => [
+                "success" => [],
+                "failed" => []
+            ]
+        ];
+
+        $user = $this->user->getByHash($hash);
+        $deleteUserStatus = $this->user->delete($user['id']);
+        $deleteAauthUser = $this->user->deleteAauthUser($user['aauth_user_id']);
+
+        if ($deleteUserStatus):
+            $response['messages']['success'][] = "Usuário deletado com sucesso";
+            $response["success"] = true;
+        else:
+            $response['messages']['failed'][] = "Ocorreu um erro durante a deleção do usuário";
+        endif;
+
+        if (!$deleteAauthUser):
+            $response['messages']['failed'][] = "Ocorreu um erro durante a deleção das credencias de login";
+            $response["success"] = false;
+        endif;
+
+        header("Content-type: application/json");
+        echo json_encode($response);
     }
 }
