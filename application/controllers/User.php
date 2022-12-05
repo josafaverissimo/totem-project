@@ -65,6 +65,20 @@ class User extends CI_Controller
         $this->load->view('pages/user/form', $data);
     }
 
+    private function removeFieldMask($field, $value)
+    {
+        $removeMask = [
+            "cpf" => function ($value) {
+                return preg_replace("/[.-]/", "", $value);
+            },
+            "cellphone" => function ($value) {
+                return preg_replace("/[() -]/", "", $value);
+            }
+        ];
+
+        return $removeMask[$field]($value);
+    }
+
     public function create()
     {
 
@@ -109,6 +123,9 @@ class User extends CI_Controller
                 ]);
                 return;
             endif;
+
+            $post['cpf'] = $this->removeFieldMask("cpf", $post['cpf']);
+            $post['cellphone'] = $this->removeFieldMask("cellphone", $post['cellphone']);
 
             $aauth_user_id = $this->aauth->create_user($post['cpf'] . "@mail.com", $post['password'], $post['cpf']);
 
