@@ -54,9 +54,10 @@ class User extends CI_Controller
                 "public/assets/css/toastify.css"
             ],
             "scripts" => [
-                "public/assets/js/formvalidation.js",
+                "public/assets/js/jqueryMask.js",
                 "public/assets/js/toastify.js",
                 "public/assets/js/helpers.js",
+                "public/assets/js/formvalidation.js",
                 "public/assets/js/user/form.js",
             ]
         ];
@@ -76,17 +77,36 @@ class User extends CI_Controller
             $this->load->library('aauth');
             $this->load->library('form_validation');
 
-            $this->form_validation->set_rules("name", 'Nome', 'trim|required');
-            $this->form_validation->set_rules("cpf", 'Cpf', 'required|is_unique[totem_users.cpf]');
-            $this->form_validation->set_rules("cellphone", "Telefone", "trim|required");
-            $this->form_validation->set_rules("password", "Senha", "required", [
-                "required" => "O campo Senha é obrigatório"
-            ]);
+            $fieldsRules = [
+                [
+                    "field" => "name",
+                    "label" => "Nome",
+                    "rules" => "trim|required"
+                ],
+                [
+                    "field" => "cpf",
+                    "label" => "Cpf",
+                    "rules" => "required|is_unique[totem_users.cpf]"
+                ],
+                [
+                    "field" => "cellphone",
+                    "label" => "Telefone",
+                    "rules" => "trim|required"
+                ],
+                [
+                    "field" => "password",
+                    "label" => "Senha",
+                    "rules" => "required"
+                ]
+            ];
+            $this->form_validation->set_rules($fieldsRules);
 
-            if ($this->form_validation->run() == FALSE):
+            if (!$this->form_validation->run()):
                 header("Content-Type: application/json");
-                echo json_encode($this->form_validation->error_array());
-
+                echo json_encode([
+                    "success" => false,
+                    "formValidation" => $this->form_validation->error_array()
+                ]);
                 return;
             endif;
 
