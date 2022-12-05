@@ -5,7 +5,7 @@ function submitForm(form) {
     if (validation.required()) {
         wrapperElement.classList.add("my_disabled");
 
-        doCreate(form)
+        sendData(form)
 
         setTimeout(function () {
             wrapperElement.classList.remove("my_disabled");
@@ -13,7 +13,7 @@ function submitForm(form) {
     }
 }
 
-function doCreate(form) {
+function sendData(form) {
     const formData = new FormData()
 
     formData.append("name", form.name.value)
@@ -29,18 +29,19 @@ function doCreate(form) {
         return response.json()
 
     }).then(function (json) {
-        if (json.success) {
-            toastify(json.message, "success")
-        } else {
-            if (json.formValidation) {
-                Object.keys(json.formValidation).forEach(function (field) {
-                    toastify(json.formValidation[field], "failed");
+        if (json.messages) {
+            Object.keys(json.messages).forEach(function (status) {
+                json.messages[status].forEach(function (message) {
+                    toastify(message, status)
                 })
-            } else {
-                toastify(json.message, "failed")
-            }
+            })
         }
 
+        if (json.formValidation) {
+            Object.keys(json.formValidation).forEach(function (field) {
+                toastify(json.formValidation[field], "failed");
+            })
+        }
     })
 }
 

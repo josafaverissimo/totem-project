@@ -36,7 +36,7 @@ class User extends CI_Controller
 
         $editMode = !empty($userHash);
 
-        $formAction = $editMode ? base_url("user/edit") : base_url("user/create");
+        $formAction = $editMode ? base_url("user/edit/$userHash") : base_url("user/create");
 
         if ($editMode) :
             $this->load->model("User_model", "user");
@@ -81,15 +81,21 @@ class User extends CI_Controller
 
     public function create()
     {
-
         $post = $this->input->post();
-        $success = false;
-        $message = "nenhum dado enviado";
+        $message = [
+            "messages" => [
+                "success" => [],
+                "failed" => ["nenhum dado enviado"]
+            ]
+        ];
 
         if (!empty($post)) :
+            $message['messages']['failed'] = [];
+
             $this->load->model('User_model', 'user');
             $this->load->library('aauth');
             $this->load->library('form_validation');
+            $this->load->helper("custom_form_validation_functions");
 
             $fieldsRules = [
                 [
@@ -100,12 +106,12 @@ class User extends CI_Controller
                 [
                     "field" => "cpf",
                     "label" => "Cpf",
-                    "rules" => "required|is_unique[totem_users.cpf]"
+                    "rules" => "required|valid_cpf|is_unique[totem_users.cpf]"
                 ],
                 [
                     "field" => "cellphone",
                     "label" => "Telefone",
-                    "rules" => "trim|required"
+                    "rules" => "trim|valid_cellphone|required"
                 ],
                 [
                     "field" => "password",
@@ -113,7 +119,80 @@ class User extends CI_Controller
                     "rules" => "required"
                 ]
             ];
+
+            // to form validation rules "is_unique" and valid_cellphone
+            $_POST['cpf'] = $this->removeFieldMask("cpf", $_POST['cpf']);
+            $_POST['cellphone'] = $this->removeFieldMask("cellphone", $post['cellphone']);
+            $post['cpf'] = $_POST['cpf'];
+            $post['cellphone'] = $_POST['cellphone'];
+
             $this->form_validation->set_rules($fieldsRules);
+
+            if (!$this->form_validation->run()):
+                header("Content-Type: application/json");
+                echo json_encode([
+                    "formValidation" => $this->form_validation->error_array()
+                ]);
+                return;
+            endif;
+
+            $aauth_user_id = $this->aauth->create_user($post['cpf'] . "@mail.com", $post['password'], $post['cpf']);
+
+            if ($aauth_user_id !== false) :
+                $success = $this->user->create($post['name'], $post['cpf'], $post['cellphone'], $aauth_user_id);
+
+                if ($success):
+                    $message['messages']['success'][] = "Usuário criado com sucesso";
+                else:
+                    $message['messages']['failed'][] = "Ocorreu um erro durante o processo de cadastro";
+                endif;
+
+            else :
+                $message['messages']['failed'][] = "Cpf já cadastrado";
+            endif;
+        endif;
+
+        echo json_encode($message);
+    }
+
+    private function getFieldsIfNotEmpty($fields, $array)
+    {
+        $newArray = [];
+        foreach ($fields as $field):
+            if (!empty($array[$field])):
+                $newArray[$field] = $array[$field];
+            endif;
+        endforeach;
+
+        return $newArray;
+    }
+
+    public function edit($userHash)
+    {
+        $post = $this->input->post();
+        $message = [
+            "messages" => [
+                "success" => [],
+                "failed" => ["nenhum dado enviado"]
+            ]
+        ];
+
+        if (!empty($post)) :
+            $message['messages']['failed'] = [];
+
+            $this->load->model('User_model', 'user');
+            $this->load->library('aauth');
+            $this->load->library('form_validation');
+
+            if (isset($post['cpf'])):
+                $post['cpf'] = $this->removeFieldMask("cpf", $post['cpf']);
+            endif;
+
+            if (isset($post['cellphone'])):
+                $post['cellphone'] = $this->removeFieldMask("cellphone", $post['cellphone']);
+            endif;
+
+            $this->form_validation->set_rules("cpf", "Cpf", "is_unique[totem_users.cpf]");
 
             if (!$this->form_validation->run()):
                 header("Content-Type: application/json");
@@ -124,27 +203,47 @@ class User extends CI_Controller
                 return;
             endif;
 
-            $post['cpf'] = $this->removeFieldMask("cpf", $post['cpf']);
-            $post['cellphone'] = $this->removeFieldMask("cellphone", $post['cellphone']);
+            $user = $this->user->getByHash($userHash);
+            $data = $this->getFieldsIfNotEmpty([
+                "name",
+                "cpf",
+                "cellphone"
+            ], $post);
 
-            $aauth_user_id = $this->aauth->create_user($post['cpf'] . "@mail.com", $post['password'], $post['cpf']);
+            if (!empty($data)):
+                $success = $this->user->edit($user['id'], $data);
 
-            if ($aauth_user_id !== false) :
-                $success = $this->user->create($post['name'], $post['cpf'], $post['cellphone'], $aauth_user_id);
-                $message = "Usuário criado com sucesso";
-            else :
-                $message = "Cpf já cadastrado";
+
+                if ($success):
+                    $this->load->library("aauth");
+                    if (!empty($post['password'])):
+                        $passwordHash = $this->aauth->hash_password($post['password'], $user['aauth_user_id']);
+
+                        $passwordEditStatus = $this->user->editPassword($user['aauth_user_id'], $passwordHash);
+
+                        if (!$passwordEditStatus):
+                            $message['messages']["failed"][] = "Não foi possível alterar a senha";
+                        endif;
+                    endif;
+
+                    if (!empty($data['cpf'])):
+                        $username = $data['cpf'];
+
+                        $usernameEditStatus = $this->user->editUsername($user['aauth_user_id'], $username);
+                        if (!$usernameEditStatus):
+                            $message['messages']["failed"][] = "Não foi possível alterar o seu nome de usuário";
+                        endif;
+                    endif;
+                endif;
+
+                if ($success):
+                    $message['messages']["success"][] = "Usuário editado com sucesso";
+                else:
+                    $message['messages']['failed'][] = "Ocorreu um erro durante o processo de edição";
+                endif;
             endif;
         endif;
 
-        echo json_encode([
-            "success" => $success,
-            "message" => $message
-        ]);
-    }
-
-    public function edit()
-    {
-        echo "hello edit";
+        echo json_encode($message);
     }
 }

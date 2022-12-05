@@ -13,7 +13,7 @@ class User_model extends CI_Model
         $this->table = "totem_users";
     }
 
-    public function create($name, $cpf, $cellphone, $aauth_user_id): bool
+    public function create($name, $cpf, $cellphone, $aauth_user_id)
     {
         $this->db->trans_begin();
 
@@ -38,9 +38,80 @@ class User_model extends CI_Model
         endif;
     }
 
+    private function setFieldsIfIsSetInArray($fields, $array)
+    {
+        foreach ($fields as $field):
+            if (isset($array[$field])):
+                $this->db->set("tu.$field", $array[$field]);
+            endif;
+        endforeach;
+    }
+
+    public function edit($userId, $data)
+    {
+        $this->db->trans_begin();
+
+        $this->setFieldsIfIsSetInArray([
+            "name",
+            "cpf",
+            "cellphone"
+        ], $data);
+
+        $this->db->where('tu.id', "$userId");
+        $this->db->update($this->table . " tu");
+
+        if ($this->db->trans_status() === false) :
+            $this->db->trans_rollback();
+
+            return false;
+        else :
+            $this->db->trans_commit();
+
+            return true;
+        endif;
+    }
+
+    public function editUsername($aauthUserId, $username)
+    {
+        $this->db->trans_begin();
+
+        $this->db->set("au.username", "$username");
+        $this->db->where("au.id", "$aauthUserId");
+        $this->db->update("aauth_users au");
+
+        if ($this->db->trans_status() === false) :
+            $this->db->trans_rollback();
+
+            return false;
+        else :
+            $this->db->trans_commit();
+
+            return true;
+        endif;
+    }
+
+    public function editPassword($aauthUserId, $passwordHash)
+    {
+        $this->db->trans_begin();
+
+        $this->db->set("au.pass", "$passwordHash");
+        $this->db->where("au.id", "$aauthUserId");
+        $this->db->update("aauth_users au");
+
+        if ($this->db->trans_status() === false) :
+            $this->db->trans_rollback();
+
+            return false;
+        else :
+            $this->db->trans_commit();
+
+            return true;
+        endif;
+    }
+
     public function getByHash($hash)
     {
-        $this->db->select("tu.id, tu.name, tu.cpf, tu.cellphone, tu.hash");
+        $this->db->select("tu.id, tu.name, tu.cpf, tu.cellphone, tu.hash, tu.aauth_user_id");
         $this->db->from($this->table . " tu");
         $this->db->where("tu.hash", $hash);
 

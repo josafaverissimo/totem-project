@@ -1,26 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
     $(".main-table").DataTable({
         "language": {
-            "decimal":        "",
-            "emptyTable":     "Nenhum dado na tabela",
-            "info":           "Exibindo de _START_ à _END_ de _TOTAL_ linhas",
-            "infoEmpty":      "Exbindo 0 à 0 de 0 linhas",
-            "infoFiltered":   "(Filtrados de _MAX_ linhas)",
-            "infoPostFix":    "",
-            "thousands":      ".",
-            "lengthMenu":     "Exibir _MENU_ linhas",
+            "decimal": "",
+            "emptyTable": "Nenhum dado na tabela",
+            "info": "Exibindo de _START_ à _END_ de _TOTAL_ linhas",
+            "infoEmpty": "Exbindo 0 à 0 de 0 linhas",
+            "infoFiltered": "(Filtrados de _MAX_ linhas)",
+            "infoPostFix": "",
+            "thousands": ".",
+            "lengthMenu": "Exibir _MENU_ linhas",
             "loadingRecords": "Carregando...",
-            "processing":     "",
-            "search":         "Pesquisar:",
-            "zeroRecords":    "Nenhuma linha encontrada",
+            "processing": "",
+            "search": "Pesquisar:",
+            "zeroRecords": "Nenhuma linha encontrada",
             "paginate": {
-                "first":      "Primeiro",
-                "last":       "Último",
-                "next":       "Próximo",
-                "previous":   "Anterior"
+                "first": "Primeiro",
+                "last": "Último",
+                "next": "Próximo",
+                "previous": "Anterior"
             },
             "aria": {
-                "sortAscending":  "Ordenar colunas de forma crescente",
+                "sortAscending": "Ordenar colunas de forma crescente",
                 "sortDescending": "Ordenar colunas de forma decrescente"
             }
         },
@@ -28,17 +28,19 @@ document.addEventListener("DOMContentLoaded", () => {
         "order": [[0, "desc"]]
     })
 
-    const linkToForm = '<div class="pd-3"><a href="' + BASE_URL +'user/form" class="btn btn-outline-dark btn-sm">Adicionar</a></div>'
+    const linkToForm = '<div class="pd-3"><a href="' + BASE_URL + 'user/form" class="btn btn-outline-dark btn-sm">Adicionar</a></div>'
     $(".datatables__filter").prepend(linkToForm)
 
-    document.querySelector(".buttons-control .edit").addEventListener("click", function(event) {
-        const element = event.target
-        let hash = element.parentNode.dataset.hash
+    document.querySelectorAll(".buttons-control .edit").forEach(function (button) {
+        button.addEventListener("click", function (event) {
+            const element = event.target
+            let hash = element.parentNode.dataset.hash
 
-        if(hash === undefined) {
-            hash = element.parentNode.parentNode.dataset.hash
-        }
+            if (hash === undefined) {
+                hash = element.parentNode.parentNode.dataset.hash
+            }
 
-        window.location.href = BASE_URL + "user/form/" + hash
+            window.location.href = BASE_URL + "user/form/" + hash
+        })
     })
 })

@@ -55,7 +55,7 @@
                                 <p id="cpf-input-error" class="input-error-message mt-1" hidden></p>
                             </div>
                             <div class="form-group">
-                                <label for="cellphone">Cellphone</label>
+                                <label for="cellphone">Telefone</label>
                                 <input id="cellphone" name="cellphone" type="text" class="form-control"
                                        value="<?= $user['cellphone'] ?>" required>
                                 <p id="cellphone-input-error" class="input-error-message mt-1" hidden></p>
@@ -70,7 +70,10 @@
                                     endif;
                                     ?>
                                 </label>
-                                <input id="password" name="password" type="password" class="form-control" required>
+
+                                <input id="password" name="password" type="password" class="form-control"
+                                    <?= $editMode ? "" : "required"; ?>
+                                >
                                 <p id="password-input-error" class="input-error-message mt-1" hidden></p>
                             </div>
                         </div>
