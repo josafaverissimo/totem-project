@@ -1,5 +1,5 @@
 <?php $this->load->view("components/base_head"); ?>
-    
+
     <div class="wrapper">
         <?php $this->load->view("components/navbar"); ?>
 
@@ -11,6 +11,15 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>Tabela de usuários</h1>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item active">Usuário</li>
+                                </li>
+                            </ol>
                         </div>
                     </div>
                 </div>

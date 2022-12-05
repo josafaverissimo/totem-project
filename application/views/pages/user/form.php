@@ -21,15 +21,25 @@
                             </h1>
                         </div>
                     </div>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="<?= base_url("user"); ?>">Usuário</a></li>
+                                <li class=" breadcrumb-item active">Formulário
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             <section class="content">
-                <div class="card card-primary">
+                <div id="form-card" class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">Formulário</h3>
                     </div>
-                    <form id="main-form" action="<?= $formAction ?>" novalidate>
+                    <form id="main-form" action="<?= $formAction ?>" data-wrapper-selector="#form-card" novalidate>
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">Nome</label>
@@ -66,7 +76,7 @@
                         </div>
 
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary btn-block col-2">
                                 <?php
                                 if ($editMode) :
                                     echo "Editar";
