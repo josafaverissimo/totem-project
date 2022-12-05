@@ -11,7 +11,7 @@ function toastify(message, status, gravity, position) {
         text: message,
         gravity: gravity,
         position: position,
-        duration: 3000,
+        duration: 5000,
         style: {
             background: gradients[status]
         }
