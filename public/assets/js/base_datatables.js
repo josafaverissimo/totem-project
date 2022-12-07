@@ -29,8 +29,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "dom": '<"datatables__filter flex flex-jbet flex-icent"f>t<"datatables__pagination_information_range"pi<"mt-3"l>>',
         "order": [[0, "desc"]]
     })
-
-    const linkToForm = '<div class="pd-3"><a href="' + BASE_URL + 'user/form" class="btn btn-outline-dark btn-sm">Adicionar</a></div>'
+    const tableFormLink = document.getElementById("main-table").dataset.formLink
+    const linkToForm = '<div class="pd-3"><a href="' + tableFormLink + '" class="btn btn-outline-dark btn-sm">Adicionar</a></div>'
     $(".datatables__filter").prepend(linkToForm)
 
     document.querySelectorAll(".buttons-control .edit").forEach(function (button) {
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const element = event.target
             let hash = element.closest("[data-hash]").dataset.hash
 
-            window.location.href = BASE_URL + "user/form/" + hash
+            window.location.href = tableFormLink + "/" + hash
         })
     })
 
