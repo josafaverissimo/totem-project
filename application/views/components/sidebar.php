@@ -14,6 +14,13 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
+                    <a href="<?= base_url("dashboard"); ?>" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="<?= base_url("user"); ?>" class="nav-link">
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
                              class="bi bi-person-fill-gear" viewBox="0 0 20 20">
