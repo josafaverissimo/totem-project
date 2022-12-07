@@ -120,7 +120,7 @@ class User extends CI_Controller
                 [
                     "field" => "password",
                     "label" => "Senha",
-                    "rules" => "required"
+                    "rules" => "min_length[5]|max_length[14]|required"
                 ]
             ];
 
@@ -152,7 +152,7 @@ class User extends CI_Controller
                 endif;
 
             else :
-                $message['messages']['failed'][] = "Cpf já cadastrado";
+                $message['messages']['failed'][] = $this->aauth->get_errors_array();
             endif;
         endif;
 
