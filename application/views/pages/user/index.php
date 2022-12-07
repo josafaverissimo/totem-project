@@ -18,7 +18,6 @@
                         <div class="col-sm-6">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item active">Usuário</li>
-                                </li>
                             </ol>
                         </div>
                     </div>
@@ -28,7 +27,9 @@
                 <div class="card">
                     <div class="card-body">
                         <table id="main-table"
-                               class="main-table table table-striped table-bordered table-hover display">
+                               class="main-table table table-striped table-bordered table-hover display"
+                               data-form-link="<?= base_url("user/form"); ?>"
+                        >
                             <thead>
                             <tr>
                                 <th>id</th>
