@@ -39,6 +39,8 @@ function valid_cpf($cpf)
 
 function valid_cellphone($cellphone)
 {
+    $cellphone = preg_replace("/[() -]/", "", $cellphone);
+    
     if (strlen($cellphone) == 11) return true;
 
     return false;
