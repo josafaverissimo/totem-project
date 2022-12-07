@@ -1,59 +1,82 @@
 <?php $this->load->view("components/base_head"); ?>
 
-<body class="hold-transition sidebar-mini">
-    <!-- Site wrapper -->
     <div class="wrapper">
-        <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                </li>
-            </ul>
-        </nav>
-        <!-- /.navbar -->
-
+        <?php $this->load->view("components/navbar"); ?>
 
         <?php $this->load->view("components/sidebar"); ?>
-
 
         <div class="content-wrapper">
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Tabela de clients</h1>
+                            <h1>Tabela de clientes</h1>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item active">Cliente</li>
+                            </ol>
                         </div>
                     </div>
                 </div>
             </section>
+
             <section class="content">
                 <div class="card">
                     <div class="card-body">
-                        <table class="main-table table table-striped table-bordered table-hover display">
+                        <table id="main-table"
+                               class="main-table table table-striped table-bordered table-hover display"
+                               data-form-link="<?= base_url("client/form"); ?>"
+                        >
                             <thead>
-                                <tr>
-                                    <th>nome</th>
-                                    <th>cpf</th>
-                                    <th>telefone</th>
-                                    <th>endereço</th>
-                                </tr>
+                            <tr>
+                                <th>id</th>
+                                <th>nome</th>
+                                <th>cpf</th>
+                                <th>telefone</th>
+                                <th>endereço</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($users as $user) : ?>
-                                    <tr class="control">
-                                        <td>
-                                                <span class="edit"><i class="fas fa-edit"></i></span></a>
-                                                <span class="delete"><i class="fas fa-trash"></i></span>
-                                            </div>
-                                            <span class="table-td-text"><?= $user->id; ?></span>
-                                        </td>
-                                        <td><?= $user->name ?></td>
-                                        <td><?= $user->cpf; ?></td>
-                                        <td><?= $user->cellphone; ?></td>
-                                        <td><?= $user->address; ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
+                            <?php foreach ($clients as $client) : ?>
+                                <tr class="control">
+                                    <td>
+                                        <div class="buttons-control" data-hash="<?= $client->hash; ?>">
+                                            <span class="edit"><i class="fas fa-edit"></i></span></a>
+                                            <span class="delete"><i class="fas fa-trash"></i></span>
+                                        </div>
+                                        <span class="table-td-text"><?= $client->id; ?></span>
+                                    </td>
+                                    <td><?= $client->name ?></td>
+                                    <td>
+                                        <?=
+                                        preg_replace(
+                                            "/([0-9]{3})([0-9]{3})([0-9]{3})([0-9]{2})/",
+                                            "$1.$2.$3-$4",
+                                            $client->cpf
+                                        );
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?=
+                                        preg_replace(
+                                            "/([0-9]{2})([0-9])([0-9]{4})([0-9]{4})/",
+                                            "($1) $2 $3-$4",
+                                            $client->cellphone
+                                        );
+                                        ?>
+                                    </td>
+
+                                    <td>
+                                        <?=
+                                        $client->address
+                                        ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -62,5 +85,42 @@
         </div>
     </div>
 
+    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Deseja realmente deletar esta linha?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-sm table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>nome</th>
+                            <th>cpf</th>
+                            <th>telefone</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="delete-modal-row"></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button id="delete-button" type="button" class="btn btn-danger"
+                            data-action="<?= base_url("user/delete"); ?>"
+                            data-hash=""
+                            onclick="deleteUser(event.target)"
+                    >
+                        Sim, apagar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <?php $this->load->view("components/base_footer"); ?>
+<?php $this->load->view("components/base_footer"); ?>
