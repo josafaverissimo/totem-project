@@ -127,6 +127,16 @@ class User_model extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function getLastUsers($limit = 5)
+    {
+        $this->db->select("tu.id, tu.name, tu.cpf, tu.cellphone, tu.hash");
+        $this->db->from($this->table . " tu");
+        $this->db->order_by("tu.id", "desc");
+        $this->db->limit($limit);
+
+        return $this->db->get()->result();
+    }
+
     public function delete($id)
     {
         $this->db->trans_begin();
