@@ -49,7 +49,8 @@ class Client extends CI_Controller
             "formAction" => $formAction,
             "client" => $client,
             "styles" => [
-                "public/assets/css/toastify.css"
+                "public/assets/css/toastify.css",
+                "public/assets/css/client/styles.css"
             ],
             "scripts" => [
                 "public/assets/js/jqueryMask.js",
@@ -85,8 +86,33 @@ class Client extends CI_Controller
                 "rules" => "trim|valid_cellphone|required"
             ],
             [
+                "field" => "cep",
+                "label" => "Cep",
+                "rules" => "trim|required"
+            ],
+            [
+                "field" => "state",
+                "label" => "Estado",
+                "rules" => "trim|required"
+            ],
+            [
+                "field" => "city",
+                "label" => "Cidade",
+                "rules" => "trim|required"
+            ],
+            [
                 "field" => "address",
                 "label" => "Endereço",
+                "rules" => "trim|required"
+            ],
+            [
+                "field" => "neighborhood",
+                "label" => "Bairro",
+                "rules" => "trim|required"
+            ],
+            [
+                "field" => "number",
+                "label" => "Número",
                 "rules" => "trim|required"
             ]
         ];
@@ -133,7 +159,12 @@ class Client extends CI_Controller
                 $post['name'],
                 $post['cpf'],
                 $post['cellphone'],
-                $post['address']
+                $post['cep'],
+                $post['state'],
+                $post['city'],
+                $post['address'],
+                $post['neighborhood'],
+                $post['number']
             );
 
             if ($clientCreateOperation):

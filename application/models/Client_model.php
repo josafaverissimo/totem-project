@@ -12,8 +12,9 @@ class Client_model extends CI_Model
         $this->table = "totem_clients";
     }
 
-    public function create($name, $cpf, $cellphone, $address)
+    public function create($name, $cpf, $cellphone, $cep, $state, $city, $address, $neighborhood, $number)
     {
+
         $this->db->trans_begin();
 
         $timestamp = (new DateTime)->getTimestamp();
@@ -22,7 +23,12 @@ class Client_model extends CI_Model
             "name" => $name,
             "cpf" => $cpf,
             "cellphone" => $cellphone,
+            "cep" => $cep,
+            "state" => $state,
+            "city" => $city,
             "address" => $address,
+            "neighborhood" => $neighborhood,
+            "number" => $number,
             "hash" => md5($cpf . $timestamp)
         ];
 
@@ -83,7 +89,9 @@ class Client_model extends CI_Model
 
     public function getAll()
     {
-        $this->db->select("tc.id, tc.name, tc.cpf, tc.cellphone, tc.address, tc.hash");
+        $this->db->select("tc.id, tc.name, tc.cpf, tc.cellphone, tc.cep,
+        tc.state, tc.city, tc.address, tc.neighborhood, tc.number, tc.hash");
+
         $this->db->from($this->table . " tc");
         $this->db->order_by("tc.id", "desc");
 

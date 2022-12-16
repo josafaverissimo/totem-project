@@ -37,7 +37,12 @@
                                 <th>nome</th>
                                 <th>cpf</th>
                                 <th>telefone</th>
+                                <th>cep</th>
+                                <th>estado</th>
+                                <th>cidade</th>
                                 <th>endereço</th>
+                                <th>bairro</th>
+                                <th>número</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -69,12 +74,12 @@
                                         );
                                         ?>
                                     </td>
-
-                                    <td>
-                                        <?=
-                                        $client->address
-                                        ?>
-                                    </td>
+                                    <td><?= $client->cep ?></td>
+                                    <td><?= $client->state ?></td>
+                                    <td><?= $client->city ?></td>
+                                    <td><?= $client->address ?></td>
+                                    <td><?= $client->neighborhood ?></td>
+                                    <td><?= $client->number ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>

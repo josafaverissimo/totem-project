@@ -16,11 +16,9 @@ function submitForm(form) {
 function sendData(form) {
     const formData = new FormData()
 
-    formData.append("name", form.name.value)
-    formData.append("cpf", form.cpf.value)
-    formData.append("cellphone", form.cellphone.value)
-    formData.append("address", form.address.value)
-
+    document.querySelectorAll("input").forEach(function (input) {
+        formData.append(input.name, input.value)
+    })
 
     fetch(form.action, {
         method: "post",
@@ -45,16 +43,60 @@ function sendData(form) {
     })
 }
 
+function searchCep() {
+    const cep = document.getElementById("cep").value
+    const cepRegexValidation = new RegExp("[0-9]{5}-[0-9]{3}")
+    const cepValidation = cepRegexValidation.test(cep)
+
+    if (!cepValidation) {
+        return
+    }
+
+    const target = "https://cdn.apicep.com/file/apicep/" + cep + ".json"
+
+    fetch(target).then(function (response) {
+        return response.json()
+    }).then(function (json) {
+        replaceAddressInputs({
+            state: json.state,
+            city: json.city,
+            address: json.address,
+            neighborhood: json.district
+        })
+    })
+}
+
+function replaceAddressInputs(addressData) {
+    const state = document.getElementById("state")
+    const city = document.getElementById("city")
+    const address = document.getElementById("address")
+    const neighborhood = document.getElementById("neighborhood")
+
+    state.value = addressData.state
+    city.value = addressData.city
+    address.value = addressData.address
+    neighborhood.value = addressData.neighborhood
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const mainForm = document.getElementById('main-form')
 
-    $("#cpf").mask("000.000.000-00")
-    $("#cellphone").mask("(00) 0 0000-0000")
+    $("input[data-mask]").each(function (index, input) {
+        $(input).mask(input.dataset.mask)
+    })
+
+    document.querySelectorAll("input[data-mask]").forEach(function (input) {
+
+    })
 
     mainForm.addEventListener('submit', event => {
         event.preventDefault()
 
         submitForm(event.target)
+    })
+
+    document.getElementById("search-cep").addEventListener("click", function (event) {
+        searchCep()
     })
 
 })
