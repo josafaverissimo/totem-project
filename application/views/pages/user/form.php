@@ -39,7 +39,8 @@
                     <div class="card-header">
                         <h3 class="card-title">Formulário</h3>
                     </div>
-                    <form id="main-form" action="<?= $formAction ?>" data-wrapper-selector="#form-card" novalidate>
+                    <form id="main-form" action="<?= $formAction ?>" data-wrapper-selector="#form-card"
+                          data-redirect="<?= base_url("user"); ?>" novalidate>
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">Nome</label>

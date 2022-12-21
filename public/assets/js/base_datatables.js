@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const linkToForm = '<div class="pd-3"><a href="' + tableFormLink + '" class="btn btn-outline-dark btn-sm">Adicionar</a></div>'
     $(".datatables__filter").prepend(linkToForm)
 
-    document.querySelectorAll(".buttons-control .edit").forEach(function (button) {
+    document.querySelectorAll(".datatables-actions-content .item.edit").forEach(function (button) {
         button.addEventListener("click", function (event) {
             const element = event.target
             let hash = element.closest("[data-hash]").dataset.hash
@@ -42,31 +42,82 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     })
 
-    document.querySelectorAll(".buttons-control .delete").forEach(function (button) {
+    document.querySelectorAll(".datatables-actions-content .item.delete").forEach(function (button) {
         button.addEventListener("click", function (event) {
             const deleteButton = document.getElementById("delete-button")
             const element = event.target
             const hash = element.closest("[data-hash]").dataset.hash
             const deleteModalRow = document.querySelector(".delete-modal-row")
-            const row = element.closest("tr")
+            const row = document.querySelector('[data-hash="' + hash + '"]')
+            const rowsAllowed = deleteModalRow.dataset.rows === undefined ?
+                null :
+                deleteModalRow.dataset.rows.split(",").map(function (row) {
+                    return Number(row)
+                })
 
             row.setAttribute("id", "delete-row")
 
             deleteModalRow.innerHTML = ''
-            row.querySelectorAll("td").forEach(function (td) {
-                const data = td.textContent
-                    .replace(/ +/g, " ")
-                    .replace(/^ /, "")
+            row.querySelectorAll("td").forEach(function (td, index) {
+                if (rowsAllowed !== null) {
+                    if (rowsAllowed.indexOf(index) !== -1) {
+                        const data = td.textContent
+                            .replace(/ +/g, " ")
+                            .replace(/^ /, "")
 
-                const newTdElement = document.createElement("td")
-                newTdElement.textContent = data
+                        const newTdElement = document.createElement("td")
+                        newTdElement.textContent = data
 
-                deleteModalRow.append(newTdElement)
+                        deleteModalRow.append(newTdElement)
+                    }
+                } else {
+                    const data = td.textContent
+                        .replace(/ +/g, " ")
+                        .replace(/^ /, "")
+
+                    const newTdElement = document.createElement("td")
+                    newTdElement.textContent = data
+
+                    deleteModalRow.append(newTdElement)
+                }
             })
 
             deleteButton.setAttribute("data-hash", hash)
 
             $("#delete-modal").modal("show")
+        })
+    })
+
+    const contextMenu = document.querySelector(".datatables-actions-wrapper")
+    document.addEventListener("click", function (event) {
+        const isInContextMenu = event.target.closest(".datatables-actions-wrapper") === null
+
+        if (isInContextMenu) {
+            contextMenu.setAttribute("hidden", "")
+        }
+    })
+
+    document.querySelectorAll("td").forEach(function (td) {
+        td.addEventListener("contextmenu", function (e) {
+            e.preventDefault()
+
+            const hash = e.target.closest("[data-hash]").dataset.hash
+            contextMenu.setAttribute("data-hash", hash)
+
+            let x = e.clientX
+            let y = e.clientY
+
+            let windowWidth = window.innerWidth
+            let windowHeight = window.innerHeight
+            let contextMenuWidth = contextMenu.offsetWidth
+            let contextMenuHeight = contextMenu.offsetHeight
+
+            x = x > windowWidth - contextMenuWidth ? windowWidth - contextMenuWidth : x
+            y = y > windowHeight - contextMenuHeight ? windowHeight - contextMenuHeight : y
+
+            contextMenu.style.left = `${x}px`
+            contextMenu.style.top = `${y}px`
+            contextMenu.removeAttribute("hidden")
         })
     })
 })

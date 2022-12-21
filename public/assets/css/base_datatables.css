@@ -1,33 +1,29 @@
-.control .buttons-control {
-    display: none;
+.datatables-actions-wrapper {
+    position: absolute;
+    width: 150px;
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
 }
 
-.control:hover .buttons-control {
+.datatables-actions-wrapper .menu {
+    padding: 0;
+    margin: 0;
+}
+
+.datatables-actions-content .item:hover {
+    background: #f2f2f2;
+}
+
+.datatables-actions-content .item {
+    list-style: none;
+    font-size: 1.1rem;
+    height: 55px;
     display: flex;
-    justify-content: center;
-}
-
-.control:hover .table-td-text {
-    display: none;
-}
-
-.buttons-control .edit, .buttons-control .delete {
-    display: flex;
+    padding: 10px;
+    cursor: pointer;
     justify-content: center;
     align-items: center;
-    padding: 0px -25px;
-    font-size: 1.2rem;
-    cursor:pointer;
-    padding: 3px 20px;
-    margin: 0 5px;
-    border-radius: 3px;
-    background-color: #a5a5a5;
-    transition: .4s;
-
-}
-
-.buttons-control .edit:hover, .buttons-control .delete:hover {
-    background-color: #757575;
 }
 
 .card-body {

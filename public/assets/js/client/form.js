@@ -3,12 +3,12 @@ function submitForm(form) {
     const wrapperElement = document.querySelector(form.dataset.wrapperSelector)
 
     if (validation.required()) {
-        wrapperElement.classList.add("my_disabled");
+        wrapperElement.classList.add("my-disabled");
 
         sendData(form)
 
         setTimeout(function () {
-            wrapperElement.classList.remove("my_disabled");
+            wrapperElement.classList.remove("my-disabled");
         }, 2000)
     }
 }
@@ -39,6 +39,12 @@ function sendData(form) {
             Object.keys(json.formValidation).forEach(function (field) {
                 toastify(json.formValidation[field], "failed");
             })
+        }
+
+        if (json.success) {
+            setTimeout(function () {
+                window.location.href = form.dataset.redirect
+            }, 1500)
         }
     })
 }
@@ -98,5 +104,4 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("search-cep").addEventListener("click", function (event) {
         searchCep()
     })
-
 })

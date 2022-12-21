@@ -40,14 +40,8 @@
                             </thead>
                             <tbody>
                             <?php foreach ($users as $user) : ?>
-                                <tr class="control">
-                                    <td>
-                                        <div class="buttons-control" data-hash="<?= $user->hash; ?>">
-                                            <span class="edit"><i class="fas fa-edit"></i></span></a>
-                                            <span class="delete"><i class="fas fa-trash"></i></span>
-                                        </div>
-                                        <span class="table-td-text"><?= $user->id; ?></span>
-                                    </td>
+                                <tr data-hash="<?= $user->hash; ?>">
+                                    <td><?= $user->id; ?></td>
                                     <td><?= $user->name ?></td>
                                     <td>
                                         <?=
@@ -76,6 +70,8 @@
             </section>
         </div>
     </div>
+
+<?php $this->load->view("components/datatables_actions"); ?>
 
     <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">

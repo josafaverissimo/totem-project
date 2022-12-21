@@ -86,7 +86,8 @@ class User extends CI_Controller
     public function create()
     {
         $post = $this->input->post();
-        $message = [
+        $response = [
+            "success" => false,
             "messages" => [
                 "success" => [],
                 "failed" => ["nenhum dado enviado"]
@@ -94,7 +95,7 @@ class User extends CI_Controller
         ];
 
         if (!empty($post)) :
-            $message['messages']['failed'] = [];
+            $response['messages']['failed'] = [];
 
             $this->load->model('User_model', 'user');
             $this->load->library('aauth');
@@ -146,18 +147,19 @@ class User extends CI_Controller
                 $success = $this->user->create($post['name'], $post['cpf'], $post['cellphone'], $aauth_user_id);
 
                 if ($success):
-                    $message['messages']['success'][] = "Usuário criado com sucesso";
+                    $response['success'] = true;
+                    $response['messages']['success'][] = "Usuário criado com sucesso";
                 else:
-                    $message['messages']['failed'][] = "Ocorreu um erro durante o processo de cadastro";
+                    $response['messages']['failed'][] = "Ocorreu um erro durante o processo de cadastro";
                 endif;
 
             else :
-                $message['messages']['failed'][] = $this->aauth->get_errors_array();
+                $response['messages']['failed'][] = $this->aauth->get_errors_array();
             endif;
         endif;
 
         header("Content-type: application/json");
-        echo json_encode($message);
+        echo json_encode($response);
     }
 
     private function getFieldsIfNotEmpty($fields, $array)
@@ -175,7 +177,8 @@ class User extends CI_Controller
     public function edit($userHash)
     {
         $post = $this->input->post();
-        $message = [
+        $response = [
+            "success" => false,
             "messages" => [
                 "success" => [],
                 "failed" => ["nenhum dado enviado"]
@@ -183,7 +186,7 @@ class User extends CI_Controller
         ];
 
         if (!empty($post)) :
-            $message['messages']['failed'] = [];
+            $response['messages']['failed'] = [];
 
             $this->load->model('User_model', 'user');
             $this->load->library('aauth');
@@ -218,7 +221,6 @@ class User extends CI_Controller
             if (!empty($data)):
                 $success = $this->user->edit($user['id'], $data);
 
-
                 if ($success):
                     $this->load->library("aauth");
                     if (!empty($post['password'])):
@@ -227,7 +229,7 @@ class User extends CI_Controller
                         $passwordEditStatus = $this->user->editPassword($user['aauth_user_id'], $passwordHash);
 
                         if (!$passwordEditStatus):
-                            $message['messages']["failed"][] = "Não foi possível alterar a senha";
+                            $response['messages']["failed"][] = "Não foi possível alterar a senha";
                         endif;
                     endif;
 
@@ -236,21 +238,22 @@ class User extends CI_Controller
 
                         $usernameEditStatus = $this->user->editUsername($user['aauth_user_id'], $username);
                         if (!$usernameEditStatus):
-                            $message['messages']["failed"][] = "Não foi possível alterar o seu nome de usuário";
+                            $response['messages']["failed"][] = "Não foi possível alterar o seu nome de usuário";
                         endif;
                     endif;
                 endif;
 
                 if ($success):
-                    $message['messages']["success"][] = "Usuário editado com sucesso";
+                    $response['success'] = true;
+                    $response['messages']["success"][] = "Usuário editado com sucesso";
                 else:
-                    $message['messages']['failed'][] = "Ocorreu um erro durante o processo de edição";
+                    $response['messages']['failed'][] = "Ocorreu um erro durante o processo de edição";
                 endif;
             endif;
         endif;
 
         header("Content-type: application/json");
-        echo json_encode($message);
+        echo json_encode($response);
     }
 
     public function delete($hash)

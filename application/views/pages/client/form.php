@@ -28,7 +28,8 @@
                     <div class="card-header">
                         <h3 class="card-title">Clientes</h3>
                     </div>
-                    <form id="main-form" action="<?= $formAction; ?>" data-wrapper-selector="#form-card" novalidate>
+                    <form id="main-form" action="<?= $formAction; ?>" data-wrapper-selector="#form-card"
+                          data-redirect="<?= base_url("client"); ?>" novalidate>
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">Nome</label>
@@ -56,7 +57,7 @@
                                     <label for="cep">Cep</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="cep" data-mask="00000-000"
-                                               name="cep" required>
+                                               name="cep" value="<?= $client['cep']; ?>" required>
                                         <div class="input-group-append">
                                             <button id="search-cep" type="button" class="input-group-text">
                                                 Buscar
@@ -69,13 +70,14 @@
                                 <div class="col">
                                     <label for="state">Estado</label>
                                     <input id="state" name="state" type="text" class="form-control"
-                                           value="" required>
+                                           value="<?= $client['state']; ?>" required>
                                     <p id="state-input-error" class="input-error-message mt-1" hidden></p>
                                 </div>
 
                                 <div class="col">
                                     <label for="city">Cidade</label>
-                                    <input id="city" name="city" type="text" class="form-control" value=""
+                                    <input id="city" name="city" type="text" class="form-control"
+                                           value="<?= $client['city']; ?>"
                                            required>
                                     <p id="city-input-error" class="input-error-message mt-1" hidden></p>
                                 </div>
@@ -85,20 +87,21 @@
                                 <div class="col-5">
                                     <label for="address">Endereço</label>
                                     <input id="address" name="address" type="text" class="form-control"
-                                           value="" required>
+                                           value="<?= $client['address']; ?>" required>
                                     <p id="address-input-error" class="input-error-message mt-1" hidden></p>
                                 </div>
 
                                 <div class="col-5">
                                     <label for="neighborhood">Bairro</label>
                                     <input id="neighborhood" name="neighborhood" type="text" class="form-control"
-                                           value="" required>
+                                           value="<?= $client['neighborhood']; ?>" required>
                                     <p id="neighborhood-input-error" class="input-error-message mt-1" hidden></p>
                                 </div>
 
                                 <div class="col-2">
                                     <label for="number">Número</label>
-                                    <input id="number" name="number" type="text" class="form-control" value=""
+                                    <input id="number" name="number" type="text" class="form-control"
+                                           value="<?= $client['number']; ?>"
                                            required>
                                     <p id="number-input-error" class="input-error-message mt-1" hidden></p>
                                 </div>

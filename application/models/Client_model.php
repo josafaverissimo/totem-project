@@ -54,18 +54,24 @@ class Client_model extends CI_Model
         endforeach;
     }
 
-    public function edit($userId, $data)
+    public function edit($clientId, $data)
     {
         $this->db->trans_begin();
 
         $this->setFieldsIfIsSetInArray([
             "name",
             "cpf",
-            "cellphone"
+            "cellphone",
+            "cep",
+            "state",
+            "city",
+            "address",
+            "neighborhood",
+            "number"
         ], $data);
 
-        $this->db->where('tu.id', "$userId");
-        $this->db->update($this->table . " tu");
+        $this->db->where('tc.id', "$clientId");
+        $this->db->update($this->table . " tc");
 
         if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
@@ -80,7 +86,8 @@ class Client_model extends CI_Model
 
     public function getByHash($hash)
     {
-        $this->db->select("tc.id, tc.name, tc.cpf, tc.cellphone, tc.address, tc.hash");
+        $this->db->select("tc.id, tc.name, tc.cpf, tc.cellphone, tc.cep, tc.state, tc.city,
+        tc.neighborhood, tc.address, tc.number, tc.hash");
         $this->db->from($this->table . " tc");
         $this->db->where("tc.hash", $hash);
 

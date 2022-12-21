@@ -29,7 +29,7 @@
     border-color: rgba(255, 0, 0, .5);
 }
 
-.my_disabled::before {
+.my-disabled::before {
     content: '';
     display: block;
     width: 100%;

@@ -1,4 +1,4 @@
-function deleteUser(button) {
+function deleteClient(button) {
     const form = document.querySelector("#main-table")
     const hash = button.dataset.hash
     const action = button.dataset.action

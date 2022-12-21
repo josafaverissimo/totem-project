@@ -9,6 +9,11 @@ function formatCpf($cpf): string
     );
 }
 
+function removeCpfMask($cpf)
+{
+    return preg_replace("/[.-]/", "", $cpf);
+}
+
 function formatCellphone($cellphone): string
 {
     return preg_replace(
@@ -16,4 +21,9 @@ function formatCellphone($cellphone): string
         "($1) $2 $3-$4",
         $cellphone
     );
+}
+
+function removeCellphoneMask($cellphone)
+{
+    return preg_replace("/[() -]/", "", $cellphone);
 }

@@ -47,13 +47,9 @@
                             </thead>
                             <tbody>
                             <?php foreach ($clients as $client) : ?>
-                                <tr class="control">
+                                <tr data-hash="<?= $client->hash; ?>">
                                     <td>
-                                        <div class="buttons-control" data-hash="<?= $client->hash; ?>">
-                                            <span class="edit"><i class="fas fa-edit"></i></span></a>
-                                            <span class="delete"><i class="fas fa-trash"></i></span>
-                                        </div>
-                                        <span class="table-td-text"><?= $client->id; ?></span>
+                                        <?= $client->id; ?>
                                     </td>
                                     <td><?= $client->name ?></td>
                                     <td>
@@ -90,6 +86,8 @@
         </div>
     </div>
 
+<?php $this->load->view("components/datatables_actions"); ?>
+
     <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -106,20 +104,19 @@
                             <th>id</th>
                             <th>nome</th>
                             <th>cpf</th>
-                            <th>telefone</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="delete-modal-row"></tr>
+                        <tr class="delete-modal-row" data-rows="0,1,2"></tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                     <button id="delete-button" type="button" class="btn btn-danger"
-                            data-action="<?= base_url("user/delete"); ?>"
+                            data-action="<?= base_url("client/delete"); ?>"
                             data-hash=""
-                            onclick="deleteUser(event.target)"
+                            onclick="deleteClient(event.target)"
                     >
                         Sim, apagar
                     </button>
