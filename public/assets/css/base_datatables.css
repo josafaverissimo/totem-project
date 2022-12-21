@@ -1,3 +1,7 @@
+tr {
+    cursor: pointer;
+}
+
 .datatables-actions-wrapper {
     position: absolute;
     width: 150px;
