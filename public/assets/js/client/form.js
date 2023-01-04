@@ -55,20 +55,36 @@ function searchCep() {
     const cepValidation = cepRegexValidation.test(cep)
 
     if (!cepValidation) {
+        toastify("Cep inválido", "failed")
         return
     }
 
-    const target = "https://cdn.apicep.com/file/apicep/" + cep + ".json"
+    const fieldsIdToDisable = ["state", "city", "address", "neighborhood"]
+    const target = "https://brasilapi.com.br/api/cep/v1/" + cep
+
+    fieldsIdToDisable.forEach(function(fieldId) {
+        document.querySelector("#" + fieldId).parentNode.classList.add("my-disabled")
+    })
 
     fetch(target).then(function (response) {
         return response.json()
     }).then(function (json) {
+        if(json.errors) {
+            toastify("Cep inválido", "failed")
+            return
+        }
         replaceAddressInputs({
             state: json.state,
             city: json.city,
-            address: json.address,
-            neighborhood: json.district
+            address: json.street,
+            neighborhood: json.neighborhood
         })
+    }).then(function() {
+        setTimeout(function() {
+            fieldsIdToDisable.forEach(function(fieldId) {
+                document.querySelector("#" + fieldId).parentNode.classList.remove("my-disabled")
+            })
+        }, 1000)
     })
 }
 
