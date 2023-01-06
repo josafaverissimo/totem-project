@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Event extends CI_Controller
+class EventCategory extends CI_Controller
 {
     public function index()
     {
@@ -23,7 +23,7 @@ class Event extends CI_Controller
             ]
         ];
 
-        $this->load->view('pages/event/index', $data);
+        $this->load->view('pages/event/category/index', $data);
     }
 
 

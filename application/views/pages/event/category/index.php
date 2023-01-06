@@ -1,3 +1,4 @@
+<?php
 <?php $this->load->view("components/base_head"); ?>
 
     <div class="wrapper">
@@ -10,14 +11,14 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Tabela de clientes</h1>
+                            <h1>Tabela de eventos</h1>
                         </div>
                     </div>
 
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item active">Cliente</li>
+                                <li class="breadcrumb-item active">Evento</li>
                             </ol>
                         </div>
                     </div>
@@ -27,55 +28,23 @@
             <section class="content">
                 <div class="card">
                     <div class="card-body">
-                        <table id="main-table"
-                               class="main-table table table-striped table-bordered table-hover display"
-                               data-form-link="<?= base_url("client/form"); ?>"
-                        >
+                        <table id="main-table" class="main-table table table-striped table-bordered table-hover display"
+                               data-form-link="<?= base_url("event/form"); ?>">
                             <thead>
                             <tr>
                                 <th>id</th>
                                 <th>nome</th>
-                                <th>cpf</th>
-                                <th>telefone</th>
-                                <th>cep</th>
-                                <th>estado</th>
-                                <th>cidade</th>
-                                <th>endereço</th>
-                                <th>bairro</th>
-                                <th>número</th>
+                                <th>categoria</th>
+                                <th>ativo</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php foreach ($clients as $client) : ?>
-                                <tr data-hash="<?= $client->hash; ?>">
-                                    <td>
-                                        <?= $client->id; ?>
-                                    </td>
-                                    <td><?= $client->name ?></td>
-                                    <td>
-                                        <?=
-                                        preg_replace(
-                                            "/([0-9]{3})([0-9]{3})([0-9]{3})([0-9]{2})/",
-                                            "$1.$2.$3-$4",
-                                            $client->cpf
-                                        );
-                                        ?>
-                                    </td>
-                                    <td>
-                                        <?=
-                                        preg_replace(
-                                            "/([0-9]{2})([0-9])([0-9]{4})([0-9]{4})/",
-                                            "($1) $2 $3-$4",
-                                            $client->cellphone
-                                        );
-                                        ?>
-                                    </td>
-                                    <td><?= $client->cep ?></td>
-                                    <td><?= $client->state ?></td>
-                                    <td><?= $client->city ?></td>
-                                    <td><?= $client->address ?></td>
-                                    <td><?= $client->neighborhood ?></td>
-                                    <td><?= $client->number ?></td>
+                            <?php foreach ($events as $event) : ?>
+                                <tr data-hash="<?= $event->hash; ?>">
+                                    <td><?= $event->id; ?></td>
+                                    <td><?= $event->name ?></td>
+                                    <td><?= $event->type ?></td>
+                                    <td><?= $event->active ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
@@ -92,7 +61,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Deseja realmente deletar esta linha?</h5>
+                    <h5 class="modal-title">Deseja realmente deletar esta linha?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -114,10 +83,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                     <button id="delete-button" type="button" class="btn btn-danger"
-                            data-action="<?= base_url("client/delete"); ?>"
-                            data-hash=""
-                            onclick="deleteClient(event.target)"
-                    >
+                            data-action="<?= base_url("client/delete"); ?>" data-hash=""
+                            onclick="deleteClient(event.target)">
                         Sim, apagar
                     </button>
                 </div>

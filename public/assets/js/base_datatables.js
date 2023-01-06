@@ -49,18 +49,18 @@ document.addEventListener("DOMContentLoaded", () => {
             const hash = element.closest("[data-hash]").dataset.hash
             const deleteModalRow = document.querySelector(".delete-modal-row")
             const row = document.querySelector('[data-hash="' + hash + '"]')
-            const rowsAllowed = deleteModalRow.dataset.rows === undefined ?
+            const colsAllowed = deleteModalRow.dataset.cols === undefined ?
                 null :
-                deleteModalRow.dataset.rows.split(",").map(function (row) {
-                    return Number(row)
+                deleteModalRow.dataset.cols.split(",").map(function (col) {
+                    return Number(col)
                 })
 
             row.setAttribute("id", "delete-row")
 
             deleteModalRow.innerHTML = ''
             row.querySelectorAll("td").forEach(function (td, index) {
-                if (rowsAllowed !== null) {
-                    if (rowsAllowed.indexOf(index) !== -1) {
+                if (colsAllowed !== null) {
+                    if (colsAllowed.indexOf(index) !== -1) {
                         const data = td.textContent
                             .replace(/ +/g, " ")
                             .replace(/^ /, "")

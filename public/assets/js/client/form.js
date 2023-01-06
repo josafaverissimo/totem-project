@@ -62,14 +62,14 @@ function searchCep() {
     const fieldsIdToDisable = ["state", "city", "address", "neighborhood"]
     const target = "https://brasilapi.com.br/api/cep/v1/" + cep
 
-    fieldsIdToDisable.forEach(function(fieldId) {
+    fieldsIdToDisable.forEach(function (fieldId) {
         document.querySelector("#" + fieldId).parentNode.classList.add("my-disabled")
     })
 
     fetch(target).then(function (response) {
         return response.json()
     }).then(function (json) {
-        if(json.errors) {
+        if (json.errors) {
             toastify("Cep inválido", "failed")
             return
         }
@@ -79,9 +79,9 @@ function searchCep() {
             address: json.street,
             neighborhood: json.neighborhood
         })
-    }).then(function() {
-        setTimeout(function() {
-            fieldsIdToDisable.forEach(function(fieldId) {
+    }).then(function () {
+        setTimeout(function () {
+            fieldsIdToDisable.forEach(function (fieldId) {
                 document.querySelector("#" + fieldId).parentNode.classList.remove("my-disabled")
             })
         }, 1000)
@@ -105,10 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     $("input[data-mask]").each(function (index, input) {
         $(input).mask(input.dataset.mask)
-    })
-
-    document.querySelectorAll("input[data-mask]").forEach(function (input) {
-
     })
 
     mainForm.addEventListener('submit', event => {
