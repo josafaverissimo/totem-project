@@ -30,6 +30,7 @@ class Event extends CI_Controller
     public function form($eventHash = null)
     {
         $this->load->model("Client_model", "client");
+        $this->load->model("EventCategory_model", "eventCategory");
 
         $event = [
             "name" => null,
@@ -41,6 +42,7 @@ class Event extends CI_Controller
         $formAction = $editMode ? base_url("event/edit/$eventHash") : base_url("event/create");
 
         $clients = $this->client->getAll();
+        $eventsCategories = $this->eventCategory->getAll();
 
         $data = [
             "title" => "Relive",
@@ -48,6 +50,7 @@ class Event extends CI_Controller
             "editMode" => $editMode,
             "formAction" => $formAction,
             "clients" => $clients,
+            "eventsCategories" => $eventsCategories,
             "scripts" => [
                 "public/assets/js/jqueryMask.js",
                 "public/assets/js/toastify.js",

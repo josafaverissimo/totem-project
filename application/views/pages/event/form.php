@@ -18,6 +18,19 @@
                                 endif;
                                 ?>
                             </h1>
+
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a href="<?= base_url("event"); ?>">
+                                                Eventos
+                                            </a>
+                                        </li>
+                                        <li class=" breadcrumb-item active">Formulário</li>
+                                    </ol>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -29,7 +42,7 @@
                         <h3 class="card-title">Eventos</h3>
                     </div>
                     <form id="main-form" action="<?= $formAction; ?>" data-wrapper-selector="#form-card"
-                          data-redirect="<?= base_url("event"); ?>" novalidate>
+                          data-redirect="<?= base_url("event"); ?>" enctype="multipart/form-data" novalidate>
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">Nome</label>
@@ -50,15 +63,35 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="category">Categoria</label>
-                                <select id="category" class="form-control" required>
-                                    <?php foreach ($categories as $category): ?>
-                                        <option value="<?= $category->hash ?>">
-                                            <?= $category->name ?>
+                                <label for="event-category">Categoria</label>
+                                <select id="event-category" class="form-control" required>
+                                    <?php foreach ($eventsCategories as $eventCategory): ?>
+                                        <option value="<?= $eventCategory->hash ?>">
+                                            <?= $eventCategory->name ?>
                                         </option>
                                     <?php endforeach ?>
                                 </select>
-                                <p id="client-input-error" class="input-error-message mt-1" hidden></p>
+                                <p id="event-category-input-error" class="input-error-message mt-1" hidden></p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="background">Imagem de fundo</label>
+                                <input id="background" name="background" type="file" class="form-control" required>
+                                <p id="background-input-error" class="input-error-message mt-1" hidden></p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="active">Ativo</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="active"
+                                           id="active-yes" value="1">
+                                    <label class="form-check-label" for="active-yes">Habilitado</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="active"
+                                           id="active-no" value="0">
+                                    <label class="form-check-label" for="active-no">Desabilitado</label>
+                                </div>
                             </div>
                         </div>
 
