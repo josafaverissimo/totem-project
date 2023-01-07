@@ -4,7 +4,7 @@ tr {
 
 .datatables-actions-wrapper {
     position: absolute;
-    width: 150px;
+    width: 100px;
     background: #fff;
     border-radius: 3px;
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
@@ -21,8 +21,8 @@ tr {
 
 .datatables-actions-content .item {
     list-style: none;
-    font-size: 1.1rem;
-    height: 55px;
+    font-size: 0.925rem;
+    height: 35px;
     display: flex;
     padding: 10px;
     cursor: pointer;
