@@ -296,7 +296,7 @@
                 <button id="delete-button" type="button" class="btn btn-danger"
                         data-action="<?= base_url("user/delete"); ?>"
                         data-hash=""
-                        onclick="deleteUser(event.target)"
+                        onclick="deleteRow(event.target)"
                 >
                     Sim, apagar
                 </button>

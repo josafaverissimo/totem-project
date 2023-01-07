@@ -27,10 +27,13 @@ class Dashboard extends CI_Controller
             "events" => $this->event->getLast(),
             "clients" => $this->client->getLast(),
             "styles" => [
-                "public/assets/css/dashboard.css"
+                "public/assets/css/dashboard.css",
+                "public/assets/css/toastify.css"
             ],
             "scripts" => [
-                "public/assets/js/dashboard.js"
+                "public/assets/js/dashboard.js",
+                "public/assets/js/toastify.js",
+                "public/assets/js/helpers.js"
             ]
         ];
 

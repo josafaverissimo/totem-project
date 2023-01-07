@@ -1,9 +1,9 @@
 function deleteRow(button) {
-    const form = document.querySelector("#main-table")
     const hash = button.dataset.hash
     const action = button.dataset.action
+    const modalDelete = document.getElementById(button.dataset.modalDelete)
 
-    form.classList.add("my-disabled")
+    button.classList.add("disabled")
 
     if (hash !== "") {
         const formData = new FormData()
@@ -18,8 +18,7 @@ function deleteRow(button) {
 
         }).then(function (json) {
             if (json.success) {
-                mainDatatable.row($("#delete-row")).remove().draw()
-                $("#delete-modal").modal("hide")
+                document.getElementById("delete-row").remove()
             } else {
                 document.getElementById("delete-row").removeAttribute("id")
             }
@@ -31,11 +30,12 @@ function deleteRow(button) {
                     })
                 })
             }
-        })
 
-        setTimeout(function () {
-            form.classList.remove("my-disabled")
-        }, 1500)
+            setTimeout(function () {
+                button.classList.remove("disabled")
+                $(modalDelete).modal("hide")
+            }, 1500)
+        })
     }
 }
 
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const deleteModalId = event.target.closest("[data-delete-modal]").dataset.deleteModal
         const deleteModal = document.getElementById(deleteModalId)
         const target = baseurl + "/" + "delete/" + hash
-
+        const deleteButton = deleteModal.querySelector("button[onclick]")
         const deleteModalRow = deleteModal.querySelector(".delete-modal-row")
         const row = document.querySelector('[data-hash="' + hash + '"]')
         const colsAllowed = deleteModalRow.dataset.cols === undefined ?
@@ -102,6 +102,10 @@ document.addEventListener("DOMContentLoaded", function () {
             deleteModalRow.dataset.cols.split(",").map(function (col) {
                 return Number(col)
             })
+
+        deleteButton.setAttribute("data-action", target)
+        deleteButton.setAttribute("data-hash", hash)
+        deleteButton.setAttribute("data-modal-delete", deleteModalId)
 
         row.setAttribute("id", "delete-row")
 
