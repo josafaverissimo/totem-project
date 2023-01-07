@@ -98,14 +98,14 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     document.querySelectorAll("td").forEach(function (td) {
-        td.addEventListener("contextmenu", function (e) {
-            e.preventDefault()
+        td.addEventListener("contextmenu", function (event) {
+            event.preventDefault()
 
-            const hash = e.target.closest("[data-hash]").dataset.hash
+            const hash = event.target.closest("[data-hash]").dataset.hash
             contextMenu.setAttribute("data-hash", hash)
 
-            let x = e.clientX
-            let y = e.clientY
+            let x = event.clientX
+            let y = event.clientY
 
             let windowWidth = window.innerWidth
             let windowHeight = window.innerHeight
