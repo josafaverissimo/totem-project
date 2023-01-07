@@ -43,7 +43,7 @@ class Event_model extends CI_Model
     {
         foreach ($fields as $field) :
             if (isset($array[$field])) :
-                $this->db->set("tc.$field", $array[$field]);
+                $this->db->set("te.$field", $array[$field]);
             endif;
         endforeach;
     }
@@ -100,9 +100,9 @@ class Event_model extends CI_Model
 
     public function getLast($limit = 5)
     {
-        $this->db->select("tc.id, tc.name, tc.cpf, tc.cellphone, tc.hash");
-        $this->db->from($this->table . " tc");
-        $this->db->order_by("tc.id", "desc");
+        $this->db->select("te.id, te.name, te.events_category_id, te.active, te.background_path, te.hash");
+        $this->db->from($this->table . " te");
+        $this->db->order_by("te.id", "desc");
         $this->db->limit($limit);
 
         return $this->db->get()->result();
