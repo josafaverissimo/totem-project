@@ -127,7 +127,7 @@ class User_model extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function getLastUsers($limit = 5)
+    public function getLast($limit = 5)
     {
         $this->db->select("tu.id, tu.name, tu.cpf, tu.cellphone, tu.hash");
         $this->db->from($this->table . " tu");
