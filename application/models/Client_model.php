@@ -107,7 +107,8 @@ class Client_model extends CI_Model
 
     public function getLast($limit = 5)
     {
-        $this->db->select("tc.id, tc.name, tc.cpf, tc.cellphone, tc.hash");
+        $this->db->select("tc.id, tc.name, tc.cpf, tc.cellphone, tc.cep,
+        tc.state, tc.city, tc.address, tc.neighborhood, tc.number, tc.hash");
         $this->db->from($this->table . " tc");
         $this->db->order_by("tc.id", "desc");
         $this->db->limit($limit);
