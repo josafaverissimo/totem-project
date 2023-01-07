@@ -1,4 +1,3 @@
-<?php
 <?php $this->load->view("components/base_head"); ?>
 
     <div class="wrapper">
@@ -11,14 +10,14 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Tabela de eventos</h1>
+                            <h1>Tabela de categorias de eventos</h1>
                         </div>
                     </div>
 
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item active">Evento</li>
+                                <li class="breadcrumb-item active">Categorias de eventos</li>
                             </ol>
                         </div>
                     </div>
@@ -29,22 +28,18 @@
                 <div class="card">
                     <div class="card-body">
                         <table id="main-table" class="main-table table table-striped table-bordered table-hover display"
-                               data-form-link="<?= base_url("event/form"); ?>">
+                               data-form-link="<?= base_url("event/category/form"); ?>">
                             <thead>
                             <tr>
                                 <th>id</th>
                                 <th>nome</th>
-                                <th>categoria</th>
-                                <th>ativo</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php foreach ($events as $event) : ?>
-                                <tr data-hash="<?= $event->hash; ?>">
-                                    <td><?= $event->id; ?></td>
-                                    <td><?= $event->name ?></td>
-                                    <td><?= $event->type ?></td>
-                                    <td><?= $event->active ?></td>
+                            <?php foreach ($eventsCategories as $eventCategory) : ?>
+                                <tr data-hash="<?= $eventCategory->hash; ?>">
+                                    <td><?= $eventCategory->id; ?></td>
+                                    <td><?= $eventCategory->name ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
@@ -72,19 +67,18 @@
                         <tr>
                             <th>id</th>
                             <th>nome</th>
-                            <th>cpf</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="delete-modal-row" data-cols="0,1,2"></tr>
+                        <tr class="delete-modal-row"></tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                     <button id="delete-button" type="button" class="btn btn-danger"
-                            data-action="<?= base_url("client/delete"); ?>" data-hash=""
-                            onclick="deleteClient(event.target)">
+                            data-action="<?= base_url("event/category/delete"); ?>" data-hash=""
+                            onclick="deleteRow(event.target)">
                         Sim, apagar
                     </button>
                 </div>

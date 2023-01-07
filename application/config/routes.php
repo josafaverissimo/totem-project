@@ -55,3 +55,6 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['event/category'] = "EventCategory";
 $route['event/category/form'] = "EventCategory/form";
+$route['event/category/form/(:any)'] = "EventCategory/form/$1";
+$route['event/category/edit/(:any)'] = "EventCategory/edit/$1";
+$route['event/category/delete/(:any)'] = "EventCategory/delete/$1";
