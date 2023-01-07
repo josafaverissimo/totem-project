@@ -89,7 +89,7 @@ class EventCategory_model extends CI_Model
 
     public function getLast($limit = 5)
     {
-        $this->db->select("tec.id, tec.name, tec.cpf, tec.cellphone, tec.hash");
+        $this->db->select("tec.id, tec.name, tec.hash");
         $this->db->from($this->table . " tec");
         $this->db->order_by("tec.id", "desc");
         $this->db->limit($limit);
