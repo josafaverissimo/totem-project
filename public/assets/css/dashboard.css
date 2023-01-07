@@ -6,3 +6,32 @@ table tr:hover {
     color: #212529;
     background-color: rgba(0, 0, 0, .075) !important;
 }
+
+.table-actions-wrapper {
+    position: absolute;
+    width: 100px;
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+.table-actions-wrapper .menu {
+    padding: 0;
+    margin: 0;
+}
+
+.table-actions-content .item:hover {
+    background: #f2f2f2;
+}
+
+.table-actions-content .item {
+    list-style: none;
+    font-size: 0.925rem;
+    height: 35px;
+    display: flex;
+    padding: 10px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+}
+

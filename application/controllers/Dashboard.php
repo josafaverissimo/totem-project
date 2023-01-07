@@ -18,10 +18,14 @@ class Dashboard extends CI_Controller
     {
         $this->load->helper("format_helper");
         $this->load->model("User_model", "user");
-        
+        $this->load->model("Event_model", "event");
+        $this->load->model("Client_model", "client");
+
         $data = [
             'title' => "Relive",
-            "users" => $this->user->getLastUsers(),
+            "users" => $this->user->getLast(),
+            "events" => $this->event->getLast(),
+            "clients" => $this->client->getLast(),
             "styles" => [
                 "public/assets/css/dashboard.css"
             ],
