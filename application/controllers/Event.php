@@ -26,7 +26,6 @@ class Event extends CI_Controller
         $this->load->view('pages/event/index', $data);
     }
 
-
     public function form($eventHash = null)
     {
         $this->load->model("Client_model", "client");
@@ -51,15 +50,81 @@ class Event extends CI_Controller
             "formAction" => $formAction,
             "clients" => $clients,
             "eventsCategories" => $eventsCategories,
+            "styles" => [
+                "public/assets/adminlte/plugins/select2/css/select2.min.css"
+            ],
             "scripts" => [
                 "public/assets/js/jqueryMask.js",
                 "public/assets/js/toastify.js",
                 "public/assets/js/helpers.js",
                 "public/assets/js/formvalidation.js",
                 "public/assets/js/base_form.js",
+                "public/assets/adminlte/plugins/select2/js/select2.full.min.js"
             ]
         ];
 
         $this->load->view('pages/event/form', $data);
+    }
+
+    private function formValidation(): array
+    {
+        $this->load->library('form_validation');
+        $this->load->helper("custom_form_validation_functions");
+
+        $fieldsRules = [
+            [
+                "field" => "name",
+                "label" => "Nome",
+                "rules" => "trim|required"
+            ],
+            [
+                "field" => "clients",
+                "label" => "Clientes",
+                "rules" => "trim|required"
+            ],
+            [
+                "field" => "category",
+                "label" => "Categoria",
+                "rules" => "trim|required"
+            ]
+        ];
+
+        $this->form_validation->set_rules($fieldsRules);
+
+        if (!$this->form_validation->run()):
+            return [
+                "success" => false,
+                "errors" => $this->form_validation->error_array()
+            ];
+        endif;
+
+        return [
+            "success" => true
+        ];
+    }
+
+    public function create()
+    {
+        $post = $this->input->post();
+        $response = [
+            "success" => false,
+            "messages" => [
+                "success" => [],
+                "failed" => ["nenhum dado enviado"]
+            ]
+        ];
+
+        if (!empty($post)):
+            $response['messages']['failed'] = [];
+
+            $this->load->model("Event_model", "event");
+
+            echo json_encode($post);
+
+            return;
+        endif;
+
+        header("Content-type: application/json");
+        echo json_encode($response);
     }
 }
