@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Event_model extends CI_Model
 {
     private $table;
+    private $lastInsertId;
 
     public function __construct()
     {
@@ -12,7 +13,12 @@ class Event_model extends CI_Model
         $this->table = "totem_events";
     }
 
-    public function create($name, $type, $active, $background)
+    public function getLastInsertId()
+    {
+        return $this->lastInsertId;
+    }
+
+    public function create($name, $events_category_id, $active, $background)
     {
         $this->db->trans_begin();
 
@@ -20,13 +26,14 @@ class Event_model extends CI_Model
 
         $data = [
             "name" => $name,
-            "type" => $type,
+            "events_category_id" => $events_category_id,
             "active" => $active,
             "background" => $background,
             "hash" => md5($name . $timestamp)
         ];
 
         $this->db->insert($this->table, $data);
+        $this->lastInsertId = $this->db->insert_id();
 
         if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
@@ -34,6 +41,47 @@ class Event_model extends CI_Model
             return false;
         else :
             $this->db->trans_commit();
+
+            return true;
+        endif;
+    }
+
+    public function unlinkClientToEvent($eventId)
+    {
+        $this->db->trans_begin();
+
+        $this->db->where("event_id", $eventId);
+        $this->db->delete("totem_events_clients");
+
+        if ($this->db->trans_status() === false) :
+            $this->db->trans_rollback();
+
+            return false;
+        else :
+            $this->db->trans_commit();
+
+            return true;
+        endif;
+    }
+
+    public function linkClientToEvent($eventId, $clientId)
+    {
+        $this->db->trans_begin();
+
+        $data = [
+            "event_id" => $eventId,
+            "client_id" => $clientId,
+        ];
+
+        $this->db->insert("totem_events_clients", $data);
+
+        if ($this->db->trans_status() === false) :
+            $this->db->trans_rollback();
+
+            return false;
+        else :
+            $this->db->trans_commit();
+
 
             return true;
         endif;
@@ -48,24 +96,19 @@ class Event_model extends CI_Model
         endforeach;
     }
 
-    public function edit($clientId, $data)
+    public function edit($eventId, $data)
     {
         $this->db->trans_begin();
 
         $this->setFieldsIfIsSetInArray([
             "name",
-            "cpf",
-            "cellphone",
-            "cep",
-            "state",
-            "city",
-            "address",
-            "neighborhood",
-            "number"
+            "events_category_id",
+            "background",
+            "active"
         ], $data);
 
-        $this->db->where('tc.id', "$clientId");
-        $this->db->update($this->table . " tc");
+        $this->db->where('te.id', "$eventId");
+        $this->db->update($this->table . " te");
 
         if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
@@ -78,9 +121,31 @@ class Event_model extends CI_Model
         endif;
     }
 
+    public function getEventClients($eventId)
+    {
+        $this->db->select("tc.id, tc.name, tc.cpf, tc.cellphone, tc.cep, tc.state, tc.city,
+        tc.neighborhood, tc.address, tc.number, tc.hash");
+        $this->db->from("totem_events_clients tec");
+        $this->db->join("totem_events te", "te.id = tec.event_id");
+        $this->db->join("totem_clients tc", "tc.id = tec.client_id");
+        $this->db->where("te.id", $eventId);
+
+        return $this->db->get()->result_array();
+    }
+
+    public function getBy($field, $value)
+    {
+        $this->db->select("te.id, te.name, te.events_category_id, te.active, te.background, te.hash");
+        $this->db->from($this->table . " te");
+        $this->db->order_by("te.id", "desc");
+        $this->db->where("te.$field", $value);
+
+        return $this->db->get()->row_array();
+    }
+
     public function getByHash($hash)
     {
-        $this->db->select("te.id, te.name, te.events_category_id, te.active, te.background_path, te.hash");
+        $this->db->select("te.id, te.name, te.events_category_id, te.active, te.background, te.hash");
         $this->db->from($this->table . " te");
         $this->db->order_by("te.id", "desc");
         $this->db->where("te.hash", $hash);
@@ -90,7 +155,7 @@ class Event_model extends CI_Model
 
     public function getAll()
     {
-        $this->db->select("te.id, te.name, te.events_category_id, te.active, te.background_path, te.hash");
+        $this->db->select("te.id, te.name, te.events_category_id, te.active, te.background, te.hash");
 
         $this->db->from($this->table . " te");
         $this->db->order_by("te.id", "desc");
@@ -100,7 +165,7 @@ class Event_model extends CI_Model
 
     public function getLast($limit = 5)
     {
-        $this->db->select("te.id, te.name, te.events_category_id, te.active, te.background_path, te.hash");
+        $this->db->select("te.id, te.name, te.events_category_id, te.active, te.background, te.hash");
         $this->db->from($this->table . " te");
         $this->db->order_by("te.id", "desc");
         $this->db->limit($limit);
