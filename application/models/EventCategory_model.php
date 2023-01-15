@@ -67,6 +67,16 @@ class EventCategory_model extends CI_Model
         endif;
     }
 
+    public function getBy($field, $value)
+    {
+        $this->db->select("tec.id, tec.name, tec.hash");
+        $this->db->from($this->table . " tec");
+        $this->db->order_by("tec.id", "desc");
+        $this->db->where("tec.$field", $value);
+
+        return $this->db->get()->row_array();
+    }
+
     public function getByHash($hash)
     {
         $this->db->select("tec.id, tec.name, tec.hash");
