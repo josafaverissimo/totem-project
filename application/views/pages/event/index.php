@@ -42,7 +42,7 @@
                                 <tr data-hash="<?= $event->hash; ?>">
                                     <td><?= $event->id; ?></td>
                                     <td><?= $event->name ?></td>
-                                    <td><?= $event->type ?></td>
+                                    <td><?= $event->category ?></td>
                                     <td><?= $event->active ?></td>
                                 </tr>
                             <?php endforeach; ?>
@@ -71,19 +71,20 @@
                         <tr>
                             <th>id</th>
                             <th>nome</th>
-                            <th>cpf</th>
+                            <th>evento</th>
+                            <th>ativo</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="delete-modal-row" data-rows="0,1,2"></tr>
+                        <tr class="delete-modal-row"></tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                     <button id="delete-button" type="button" class="btn btn-danger"
-                            data-action="<?= base_url("client/delete"); ?>" data-hash=""
-                            onclick="deleteClient(event.target)">
+                            data-action="<?= base_url("event/delete"); ?>" data-hash=""
+                            onclick="deleteRow(event.target)">
                         Sim, apagar
                     </button>
                 </div>
