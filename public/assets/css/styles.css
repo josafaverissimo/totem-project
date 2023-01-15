@@ -47,3 +47,7 @@
 .bd-b {
     border-bottom: 1px solid #4b545c;
 }
+
+.pointer {
+    cursor: pointer;
+}
