@@ -117,7 +117,13 @@
                                             <td><?= $event->id; ?></td>
                                             <td><?= $event->name ?></td>
                                             <td><?= $event->category ?></td>
-                                            <td><?= $event->active ?></td>
+                                            <td style="font-size: 1rem;">
+                                                <?php if ($event->active == "F"): ?>
+                                                    <span class="badge badge-danger">Desabilitado</span>
+                                                <?php else: ?>
+                                                    <span class="badge badge-success">Habilitado</span>
+                                                <?php endif; ?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
