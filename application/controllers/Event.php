@@ -43,6 +43,7 @@ class Event extends CI_Controller
             "eventsCategoryId" => null,
             "active" => null
         ];
+        $eventClientsHashs = [];
         $editMode = !empty($eventHash);
         $formAction = $editMode ? base_url("event/edit/$eventHash") : base_url("event/create");
 

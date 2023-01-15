@@ -80,7 +80,7 @@
                                 </option>
                                 <?php foreach ($eventsCategories as $eventCategory): ?>
                                     <option value="<?= $eventCategory->hash ?>"
-                                        <?php echo $eventCategory->id === $event['events_category_id'] ? "selected" : ""; ?>
+                                        <?php echo ($editMode && $eventCategory->id === $event['events_category_id']) ? "selected" : ""; ?>
                                     >
                                         <?= $eventCategory->name ?>
                                     </option>
