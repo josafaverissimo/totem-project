@@ -271,9 +271,11 @@ class Event extends CI_Controller
             if (!empty($data['clients'])):
                 $this->load->model("Client_model", "clientModel");
 
+                $this->event->unlinkClientsToEvent($event['id']);
+
                 foreach ($data['clients'] as $client):
                     $clientId = $this->clientModel->getByHash($client)['id'];
-                    $this->event->unlinkClientToEvent($event['id']);
+
                     $this->event->linkClientToEvent($event['id'], $clientId);
                 endforeach;
             endif;
@@ -307,7 +309,7 @@ class Event extends CI_Controller
         ];
 
         $event = $this->event->getByHash($hash);
-        $this->event->unlinkClientToEvent($event['id']);
+        $this->event->unlinkClientsToEvent($event['id']);
         unlink("./public/uploads/{$event['background']}");
         $deleteEventStatus = $this->event->delete($event['id']);
 
