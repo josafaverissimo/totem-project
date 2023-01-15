@@ -1,5 +1,40 @@
 let mainDatatable = null
 
+function myContextMenu() {
+    const contextMenu = document.querySelector(".datatables-actions-wrapper")
+    document.addEventListener("click", function (event) {
+        const isInContextMenu = event.target.closest(".datatables-actions-wrapper") === null
+
+        if (isInContextMenu) {
+            contextMenu.setAttribute("hidden", "")
+        }
+    })
+
+    document.querySelectorAll("td").forEach(function (td) {
+        td.addEventListener("contextmenu", function (event) {
+            event.preventDefault()
+
+            const hash = event.target.closest("[data-hash]").dataset.hash
+            contextMenu.setAttribute("data-hash", hash)
+
+            let x = event.clientX
+            let y = event.clientY
+
+            let windowWidth = window.innerWidth
+            let windowHeight = window.innerHeight
+            let contextMenuWidth = contextMenu.offsetWidth
+            let contextMenuHeight = contextMenu.offsetHeight
+
+            x = x > windowWidth - contextMenuWidth ? windowWidth - contextMenuWidth : x
+            y = y > windowHeight - contextMenuHeight ? windowHeight - contextMenuHeight : y
+
+            contextMenu.style.left = `${x}px`
+            contextMenu.style.top = `${y}px`
+            contextMenu.removeAttribute("hidden")
+        })
+    })
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     mainDatatable = $(".main-table").DataTable({
         "language": {
@@ -88,36 +123,9 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     })
 
-    const contextMenu = document.querySelector(".datatables-actions-wrapper")
-    document.addEventListener("click", function (event) {
-        const isInContextMenu = event.target.closest(".datatables-actions-wrapper") === null
-
-        if (isInContextMenu) {
-            contextMenu.setAttribute("hidden", "")
-        }
+    myContextMenu()
+    mainDatatable.on("draw.dt", function () {
+        myContextMenu()
     })
 
-    document.querySelectorAll("td").forEach(function (td) {
-        td.addEventListener("contextmenu", function (event) {
-            event.preventDefault()
-
-            const hash = event.target.closest("[data-hash]").dataset.hash
-            contextMenu.setAttribute("data-hash", hash)
-
-            let x = event.clientX
-            let y = event.clientY
-
-            let windowWidth = window.innerWidth
-            let windowHeight = window.innerHeight
-            let contextMenuWidth = contextMenu.offsetWidth
-            let contextMenuHeight = contextMenu.offsetHeight
-
-            x = x > windowWidth - contextMenuWidth ? windowWidth - contextMenuWidth : x
-            y = y > windowHeight - contextMenuHeight ? windowHeight - contextMenuHeight : y
-
-            contextMenu.style.left = `${x}px`
-            contextMenu.style.top = `${y}px`
-            contextMenu.removeAttribute("hidden")
-        })
-    })
 })
