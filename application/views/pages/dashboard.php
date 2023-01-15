@@ -116,7 +116,7 @@
                                         <tr data-hash="<?= $event->hash; ?>">
                                             <td><?= $event->id; ?></td>
                                             <td><?= $event->name ?></td>
-                                            <td><?= $event->type ?></td>
+                                            <td><?= $event->category ?></td>
                                             <td><?= $event->active ?></td>
                                         </tr>
                                     <?php endforeach; ?>

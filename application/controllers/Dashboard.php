@@ -20,11 +20,17 @@ class Dashboard extends CI_Controller
         $this->load->model("User_model", "user");
         $this->load->model("Event_model", "event");
         $this->load->model("Client_model", "client");
+        $this->load->model("EventCategory_model", "eventCategory");
 
         $data = [
             'title' => "Relive",
             "users" => $this->user->getLast(),
-            "events" => $this->event->getLast(),
+            "events" => array_map(function ($event) {
+                $eventCategoryId = $event->events_category_id;
+                $event->category = $this->eventCategory->getBy("id", $eventCategoryId)['name'];
+
+                return $event;
+            }, $this->event->getLast()),
             "clients" => $this->client->getLast(),
             "styles" => [
                 "public/assets/css/dashboard.css",

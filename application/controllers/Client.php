@@ -140,7 +140,6 @@ class Client extends CI_Controller
         ];
     }
 
-
     private function formEditValidation(): array
     {
         $this->load->library('form_validation');
@@ -172,8 +171,7 @@ class Client extends CI_Controller
             "success" => true
         ];
     }
-
-
+    
     public function create()
     {
         $post = $this->input->post();
