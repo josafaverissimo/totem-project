@@ -84,6 +84,16 @@ class Client_model extends CI_Model
         endif;
     }
 
+    public function getBy($field, $value)
+    {
+        $this->db->select("tc.id, tc.name, tc.cpf, tc.cellphone, tc.cep, tc.state, tc.city,
+        tc.neighborhood, tc.address, tc.number, tc.hash");
+        $this->db->from($this->table . " tc");
+        $this->db->where("tc.$field", $value);
+
+        return $this->db->get()->row_array();
+    }
+
     public function getByHash($hash)
     {
         $this->db->select("tc.id, tc.name, tc.cpf, tc.cellphone, tc.cep, tc.state, tc.city,
