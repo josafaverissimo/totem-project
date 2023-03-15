@@ -7,6 +7,7 @@ class Client extends CI_Controller
     {
         $this->load->model("Client_model", "client");
         $data = [
+            "page" => "client",
             "title" => "Relive",
             "clients" => $this->client->getAll(),
             "styles" => [
@@ -53,6 +54,7 @@ class Client extends CI_Controller
         endif;
 
         $data = [
+            "page" => "client/form",
             "title" => "Relive",
             "editMode" => $editMode,
             "formAction" => $formAction,
@@ -128,7 +130,7 @@ class Client extends CI_Controller
 
         $this->form_validation->set_rules($fieldsRules);
 
-        if (!$this->form_validation->run()):
+        if (!$this->form_validation->run()) :
             return [
                 "success" => false,
                 "errors" => $this->form_validation->error_array()
@@ -160,7 +162,7 @@ class Client extends CI_Controller
 
         $this->form_validation->set_rules($fieldsRules);
 
-        if (!$this->form_validation->run()):
+        if (!$this->form_validation->run()) :
             return [
                 "success" => false,
                 "errors" => $this->form_validation->error_array()
@@ -171,7 +173,7 @@ class Client extends CI_Controller
             "success" => true
         ];
     }
-    
+
     public function create()
     {
         $post = $this->input->post();
@@ -183,14 +185,14 @@ class Client extends CI_Controller
             ]
         ];
 
-        if (!empty($post)):
+        if (!empty($post)) :
             $response['messages']['failed'] = [];
 
             $this->load->model('Client_model', 'client');
             $this->load->helper("format_helper");
 
             $formValidation = $this->formValidation();
-            if (!$formValidation['success']):
+            if (!$formValidation['success']) :
                 header("Content-type: application/json");
                 echo json_encode([
                     "formValidation" => $formValidation["errors"]
@@ -213,7 +215,7 @@ class Client extends CI_Controller
                 $post['number']
             );
 
-            if ($clientCreateOperation):
+            if ($clientCreateOperation) :
                 $response['success'] = true;
                 $response['messages']['success'][] = "Cliente criado com sucesso";
             endif;
@@ -234,13 +236,13 @@ class Client extends CI_Controller
             ]
         ];
 
-        if (!empty($post)):
+        if (!empty($post)) :
             $response['messages']['failed'] = [];
 
             $this->load->model('Client_model', 'client');
 
             $formEditValidation = $this->formEditValidation();
-            if (!$formEditValidation['success']):
+            if (!$formEditValidation['success']) :
                 header("Content-type: application/json");
                 echo json_encode([
                     "formValidation" => $formEditValidation["errors"]
@@ -251,11 +253,11 @@ class Client extends CI_Controller
             $this->load->helper("format_helper");
             $this->load->helper("filtering_helper");
 
-            if (isset($post['cpf'])):
+            if (isset($post['cpf'])) :
                 $post['cpf'] = removeCpfMask($post['cpf']);
             endif;
 
-            if (isset($post['cellphone'])):
+            if (isset($post['cellphone'])) :
                 $post['cellphone'] = removeCellphoneMask($post['cellphone']);
             endif;
 
@@ -272,10 +274,10 @@ class Client extends CI_Controller
                 "number"
             ], $post);
 
-            if (!empty($data)):
+            if (!empty($data)) :
                 $success = $this->client->edit($client['id'], $data);
 
-                if ($success):
+                if ($success) :
                     $response['success'] = true;
                     $response['messages']['success'][] = "Cliente editado com sucesso";
                 else :
@@ -303,10 +305,10 @@ class Client extends CI_Controller
         $client = $this->client->getByHash($hash);
         $deleteClientStatus = $this->client->delete($client['id']);
 
-        if ($deleteClientStatus):
+        if ($deleteClientStatus) :
             $response['messages']['success'][] = "Usuário deletado com sucesso";
             $response["success"] = true;
-        else:
+        else :
             $response['messages']['failed'][] = "Ocorreu um erro durante a deleção do usuário";
         endif;
 

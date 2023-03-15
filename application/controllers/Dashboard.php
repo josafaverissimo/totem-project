@@ -23,6 +23,7 @@ class Dashboard extends CI_Controller
         $this->load->model("EventCategory_model", "eventCategory");
 
         $data = [
+            "page" => "dashboard",
             'title' => "Relive",
             "users" => $this->user->getLast(),
             "events" => array_map(function ($event) {

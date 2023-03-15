@@ -9,8 +9,12 @@ class Event extends CI_Controller
         $this->load->model("EventCategory_model", "eventCategory");
 
         $data = [
+            "page" => "event",
             "events" => array_map(function ($event) {
-                return $this->eventCategory->getBy("id", $event->events_category_id)['name'];
+                $eventCategoryId = $event->events_category_id;
+                $event->category = $this->eventCategory->getBy("id", $eventCategoryId)['name'];
+
+                return $event;
             }, $this->event->getAll()),
             "title" => "Relive",
             "styles" => [
@@ -44,7 +48,7 @@ class Event extends CI_Controller
         $editMode = !empty($eventHash);
         $formAction = $editMode ? base_url("event/edit/$eventHash") : base_url("event/create");
 
-        if ($editMode):
+        if ($editMode) :
             $this->load->model("Event_model", "event");
 
             $event = $this->event->getBy("hash", $eventHash);
@@ -57,6 +61,7 @@ class Event extends CI_Controller
         $eventsCategories = $this->eventCategory->getAll();
 
         $data = [
+            "page" => "event/form",
             "title" => "Relive",
             "event" => $event,
             "eventClientsHashs" => $eventClientsHashs,
@@ -112,7 +117,7 @@ class Event extends CI_Controller
 
         $this->form_validation->set_rules($fieldsRules);
 
-        if (!$this->form_validation->run()):
+        if (!$this->form_validation->run()) :
             return [
                 "success" => false,
                 "errors" => $this->form_validation->error_array()
@@ -126,7 +131,7 @@ class Event extends CI_Controller
 
     private function uploadBackground($filename)
     {
-        if (!file_exists("./public/uploads")):
+        if (!file_exists("./public/uploads")) :
             mkdir("./public/uploads", 755);
         endif;
 
@@ -160,14 +165,14 @@ class Event extends CI_Controller
             ]
         ];
 
-        if (!empty($post)):
+        if (!empty($post)) :
             $response['messages']['failed'] = [];
 
             $this->load->model("Event_model", "event");
             $this->load->model("EventCategory_model", "eventCategory");
 
             $formValidation = $this->formValidation();
-            if (!$formValidation['success']):
+            if (!$formValidation['success']) :
                 header("Content-type: application/json");
                 echo json_encode([
                     "formValidation" => $formValidation["errors"]
@@ -179,7 +184,7 @@ class Event extends CI_Controller
             $filename = $timestamp;
             $backgroundUploadOperation = $this->uploadBackground($filename);
 
-            if (!$backgroundUploadOperation["success"]):
+            if (!$backgroundUploadOperation["success"]) :
                 $response['messages']['failed'][] = str_replace(["<p>", "</p>", "."], "", $backgroundUploadOperation["errors"]);
                 echo json_encode($response);
 
@@ -196,18 +201,18 @@ class Event extends CI_Controller
                 $filenameUploaded
             );
 
-            if ($eventCreateOperation):
+            if ($eventCreateOperation) :
                 $response['success'] = true;
                 $response['messages']['success'][] = "Evento Criado com sucesso";
                 $eventLastId = $this->event->getLastInsertId();
 
                 $this->load->model("Client_model", "clientModel");
 
-                foreach ($post['clients'] as $client):
+                foreach ($post['clients'] as $client) :
                     $clientId = $this->clientModel->getByHash($client)['id'];
                     $this->event->linkClientToEvent($eventLastId, $clientId);
                 endforeach;
-            else:
+            else :
                 $response['messages']['success'][] = "Houve um problema ao criar o evento";
             endif;
         endif;
@@ -227,7 +232,7 @@ class Event extends CI_Controller
             ]
         ];
 
-        if (!empty($post)):
+        if (!empty($post)) :
             $response['messages']['failed'] = [];
 
             $this->load->model('Event_model', 'event');
@@ -242,12 +247,12 @@ class Event extends CI_Controller
                 "active"
             ], $post);
 
-            if (isset($_FILES['background'])):
+            if (isset($_FILES['background'])) :
                 $timestamp = (new DateTime)->getTimestamp();
                 $filename = $timestamp;
                 $backgroundUploadOperation = $this->uploadBackground($filename);
 
-                if (!$backgroundUploadOperation["success"]):
+                if (!$backgroundUploadOperation["success"]) :
                     $response['messages']['failed'][] = str_replace(["<p>", "</p>", "."], "", $backgroundUploadOperation["errors"]);
                     echo json_encode($response);
 
@@ -258,29 +263,29 @@ class Event extends CI_Controller
                 $data['background'] = $backgroundUploadOperation['data']['file_name'];
             endif;
 
-            if (!empty($data['category'])):
+            if (!empty($data['category'])) :
                 $this->load->model("EventCategory_model", "eventCategory");
 
                 $data['events_category_id'] = $this->eventCategory->getBy("hash", $data['category'])['id'];
                 unset($data['category']);
             endif;
 
-            if (!empty($data['clients'])):
+            if (!empty($data['clients'])) :
                 $this->load->model("Client_model", "clientModel");
 
                 $this->event->unlinkClientsToEvent($event['id']);
 
-                foreach ($data['clients'] as $client):
+                foreach ($data['clients'] as $client) :
                     $clientId = $this->clientModel->getByHash($client)['id'];
 
                     $this->event->linkClientToEvent($event['id'], $clientId);
                 endforeach;
             endif;
 
-            if (!empty($data)):
+            if (!empty($data)) :
                 $success = $this->event->edit($event['id'], $data);
 
-                if ($success):
+                if ($success) :
                     $response['success'] = true;
                     $response['messages']['success'][] = "Evento editado com sucesso";
                 else :
@@ -310,10 +315,10 @@ class Event extends CI_Controller
         unlink("./public/uploads/{$event['background']}");
         $deleteEventStatus = $this->event->delete($event['id']);
 
-        if ($deleteEventStatus):
+        if ($deleteEventStatus) :
             $response['messages']['success'][] = "Cliente deletado com sucesso";
             $response["success"] = true;
-        else:
+        else :
             $response['messages']['failed'][] = "Ocorreu um erro durante o processo deleção";
         endif;
 

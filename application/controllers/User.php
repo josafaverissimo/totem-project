@@ -7,6 +7,7 @@ class User extends CI_Controller
     {
         $this->load->model("User_model", "user");
         $data = [
+            "page" => "user",
             "title" => "Relive",
             "users" => $this->user->getAll(),
             "styles" => [
@@ -24,7 +25,6 @@ class User extends CI_Controller
         ];
 
         $this->load->view('pages/user/index', $data);
-
     }
 
 
@@ -50,6 +50,7 @@ class User extends CI_Controller
 
 
         $data = [
+            "page" => "user/form",
             "title" => "Relive",
             "user" => $user,
             "editMode" => $editMode,
@@ -133,7 +134,7 @@ class User extends CI_Controller
 
             $this->form_validation->set_rules($fieldsRules);
 
-            if (!$this->form_validation->run()):
+            if (!$this->form_validation->run()) :
                 header("Content-Type: application/json");
                 echo json_encode([
                     "formValidation" => $this->form_validation->error_array()
@@ -146,10 +147,10 @@ class User extends CI_Controller
             if ($aauth_user_id !== false) :
                 $success = $this->user->create($post['name'], $post['cpf'], $post['cellphone'], $aauth_user_id);
 
-                if ($success):
+                if ($success) :
                     $response['success'] = true;
                     $response['messages']['success'][] = "Usuário criado com sucesso";
-                else:
+                else :
                     $response['messages']['failed'][] = "Ocorreu um erro durante o processo de cadastro";
                 endif;
 
@@ -165,8 +166,8 @@ class User extends CI_Controller
     private function getFieldsIfNotEmpty($fields, $array)
     {
         $newArray = [];
-        foreach ($fields as $field):
-            if (!empty($array[$field])):
+        foreach ($fields as $field) :
+            if (!empty($array[$field])) :
                 $newArray[$field] = $array[$field];
             endif;
         endforeach;
@@ -192,17 +193,17 @@ class User extends CI_Controller
             $this->load->library('aauth');
             $this->load->library('form_validation');
 
-            if (isset($post['cpf'])):
+            if (isset($post['cpf'])) :
                 $post['cpf'] = $this->removeFieldMask("cpf", $post['cpf']);
             endif;
 
-            if (isset($post['cellphone'])):
+            if (isset($post['cellphone'])) :
                 $post['cellphone'] = $this->removeFieldMask("cellphone", $post['cellphone']);
             endif;
 
             $this->form_validation->set_rules("cpf", "Cpf", "is_unique[totem_users.cpf]");
 
-            if (!$this->form_validation->run()):
+            if (!$this->form_validation->run()) :
                 header("Content-Type: application/json");
                 echo json_encode([
                     "success" => false,
@@ -218,35 +219,35 @@ class User extends CI_Controller
                 "cellphone"
             ], $post);
 
-            if (!empty($data)):
+            if (!empty($data)) :
                 $success = $this->user->edit($user['id'], $data);
 
-                if ($success):
+                if ($success) :
                     $this->load->library("aauth");
-                    if (!empty($post['password'])):
+                    if (!empty($post['password'])) :
                         $passwordHash = $this->aauth->hash_password($post['password'], $user['aauth_user_id']);
 
                         $passwordEditStatus = $this->user->editPassword($user['aauth_user_id'], $passwordHash);
 
-                        if (!$passwordEditStatus):
+                        if (!$passwordEditStatus) :
                             $response['messages']["failed"][] = "Não foi possível alterar a senha";
                         endif;
                     endif;
 
-                    if (!empty($data['cpf'])):
+                    if (!empty($data['cpf'])) :
                         $username = $data['cpf'];
 
                         $usernameEditStatus = $this->user->editUsername($user['aauth_user_id'], $username);
-                        if (!$usernameEditStatus):
+                        if (!$usernameEditStatus) :
                             $response['messages']["failed"][] = "Não foi possível alterar o seu nome de usuário";
                         endif;
                     endif;
                 endif;
 
-                if ($success):
+                if ($success) :
                     $response['success'] = true;
                     $response['messages']["success"][] = "Usuário editado com sucesso";
-                else:
+                else :
                     $response['messages']['failed'][] = "Ocorreu um erro durante o processo de edição";
                 endif;
             endif;
@@ -272,14 +273,14 @@ class User extends CI_Controller
         $deleteUserStatus = $this->user->delete($user['id']);
         $deleteAauthUser = $this->user->deleteAauthUser($user['aauth_user_id']);
 
-        if ($deleteUserStatus):
+        if ($deleteUserStatus) :
             $response['messages']['success'][] = "Usuário deletado com sucesso";
             $response["success"] = true;
-        else:
+        else :
             $response['messages']['failed'][] = "Ocorreu um erro durante a deleção do usuário";
         endif;
 
-        if (!$deleteAauthUser):
+        if (!$deleteAauthUser) :
             $response['messages']['failed'][] = "Ocorreu um erro durante a deleção das credencias de login";
             $response["success"] = false;
         endif;

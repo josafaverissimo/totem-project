@@ -7,6 +7,7 @@ class EventCategory extends CI_Controller
     {
         $this->load->model("EventCategory_model", "eventCategory");
         $data = [
+            "page" => "eventCategory",
             "eventsCategories" => $this->eventCategory->getAll(),
             "title" => "Relive",
             "styles" => [
@@ -45,6 +46,7 @@ class EventCategory extends CI_Controller
         $formAction = $editMode ? base_url("event/category/edit/$eventCategoryHash") : base_url("event/category/create");
 
         $data = [
+            "page" => "eventCategory/form",
             "title" => "Relive",
             "eventCategory" => $eventCategory,
             "editMode" => $editMode,
@@ -80,7 +82,7 @@ class EventCategory extends CI_Controller
 
         $this->form_validation->set_rules($fieldsRules);
 
-        if (!$this->form_validation->run()):
+        if (!$this->form_validation->run()) :
             return [
                 "success" => false,
                 "errors" => $this->form_validation->error_array()
@@ -103,13 +105,13 @@ class EventCategory extends CI_Controller
             ]
         ];
 
-        if (!empty($post)):
+        if (!empty($post)) :
             $this->load->model("EventCategory_model", "eventCategory");
 
             $response['messages']['failed'] = [];
 
             $formValidation = $this->formValidation();
-            if (!$formValidation['success']):
+            if (!$formValidation['success']) :
                 header("Content-type: application/json");
                 echo json_encode([
                     "formValidation" => $formValidation["errors"]
@@ -121,7 +123,7 @@ class EventCategory extends CI_Controller
                 $post['name']
             );
 
-            if ($eventCategoryCreateOperation):
+            if ($eventCategoryCreateOperation) :
                 $response['success'] = true;
                 $response['messages']['success'][] = "Categoria de evento criada com sucesso";
             endif;
@@ -142,7 +144,7 @@ class EventCategory extends CI_Controller
             ]
         ];
 
-        if (!empty($post)):
+        if (!empty($post)) :
             $response['messages']['failed'] = [];
 
             $this->load->model('EventCategory_model', 'eventCategory');
@@ -153,10 +155,10 @@ class EventCategory extends CI_Controller
                 "name"
             ], $post);
 
-            if (!empty($data)):
+            if (!empty($data)) :
                 $success = $this->eventCategory->edit($eventCategory['id'], $data);
 
-                if ($success):
+                if ($success) :
                     $response['success'] = true;
                     $response['messages']['success'][] = "Categoria de evento editada com sucesso";
                 else :
@@ -184,10 +186,10 @@ class EventCategory extends CI_Controller
         $eventCategory = $this->eventCategory->getByHash($hash);
         $deleteClientStatus = $this->eventCategory->delete($eventCategory['id']);
 
-        if ($deleteClientStatus):
+        if ($deleteClientStatus) :
             $response['messages']['success'][] = "Categoria de evento deletada com sucesso";
             $response["success"] = true;
-        else:
+        else :
             $response['messages']['failed'][] = "Ocorreu um erro durante a deleção da categoria do evento";
         endif;
 
