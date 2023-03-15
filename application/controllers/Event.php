@@ -10,10 +10,7 @@ class Event extends CI_Controller
 
         $data = [
             "events" => array_map(function ($event) {
-                $eventCategoryId = $event->events_category_id;
-                $event->category = $this->eventCategory->getBy("id", $eventCategoryId)['name'];
-
-                return $event;
+                return $this->eventCategory->getBy("id", $event->events_category_id)['name'];
             }, $this->event->getAll()),
             "title" => "Relive",
             "styles" => [
