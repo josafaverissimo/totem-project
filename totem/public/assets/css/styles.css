@@ -51,3 +51,7 @@
 .pointer {
     cursor: pointer;
 }
+
+.form-control:focus {
+    border-color: #ff8abb;
+}

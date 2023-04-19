@@ -5,17 +5,9 @@ class Event extends CI_Controller
 {
     public function index()
     {
-        $this->load->model("Event_model", "event");
-        $this->load->model("EventCategory_model", "eventCategory");
-
         $data = [
             "page" => "event",
-            "events" => array_map(function ($event) {
-                $eventCategoryId = $event->events_category_id;
-                $event->category = $this->eventCategory->getBy("id", $eventCategoryId)['name'];
-
-                return $event;
-            }, $this->event->getAll()),
+            "events" => $this->getEventsWithCategory(),
             "title" => "Relive",
             "styles" => [
                 "public/assets/css/base_datatables.css",
@@ -152,6 +144,28 @@ class Event extends CI_Controller
             "data" => $data,
             "errors" => $errors
         ];
+    }
+
+    private function getEventsWithCategory()
+    {
+        $this->load->model("Event_model", "event");
+        $this->load->model("EventCategory_model", "eventCategory");
+
+        return array_map(function ($event) {
+            $eventCategoryId = $event->events_category_id;
+            $event->category = $this->eventCategory->getBy("id", $eventCategoryId)['name'];
+
+            return $event;
+        }, $this->event->getAll());
+    }
+
+    public function getAll()
+    {
+        $eventsWithCategory = $this->getEventsWithCategory();
+
+
+        header("Content-Type: application/json");
+        echo json_encode($eventsWithCategory);
     }
 
     public function create()

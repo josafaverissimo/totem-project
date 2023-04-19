@@ -12,6 +12,10 @@ class Login extends CI_Controller
 
     public function index()
     {
+        if ($this->aauth->is_loggedin()) :
+            redirect("/eventSelection");
+        endif;
+
         $data = [
             "page" => "login",
             "title" => "Relive",
