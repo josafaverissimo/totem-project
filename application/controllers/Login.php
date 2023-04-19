@@ -36,7 +36,6 @@ class Login extends CI_Controller
 
     public function doLogin()
     {
-        $this->load->library('aauth');
 
         $post = $this->input->post();
 

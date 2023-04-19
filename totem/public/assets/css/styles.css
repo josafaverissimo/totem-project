@@ -1,0 +1,53 @@
+.text-center {
+    text-align: center;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-jcent {
+    justify-content: center;
+}
+
+.flex-jbet {
+    justify-content: space-between;
+}
+
+.flex-icent {
+    align-items: center;
+}
+
+.flex-cdir {
+    flex-direction: column;
+}
+
+.input-error-message {
+    color: red;
+    font-size: 0.8rem;
+    margin-left: 5px;
+}
+
+.input-error {
+    box-shadow: 0 0 0 2px rgba(255, 0, 0, .3);
+    border-color: rgba(255, 0, 0, .5);
+}
+
+.my-disabled::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: white;
+    position: absolute;
+    z-index: 1;
+    opacity: 0.5;
+}
+
+.bd-b {
+    border-bottom: 1px solid #4b545c;
+}
+
+.pointer {
+    cursor: pointer;
+}
