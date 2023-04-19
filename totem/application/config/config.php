@@ -37,7 +37,7 @@ $config['base_cdn'] = 'http://192.168.0.22:8080/totem-project';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------

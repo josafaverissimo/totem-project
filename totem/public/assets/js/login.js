@@ -21,7 +21,7 @@ function doLogin(form) {
 
     }).then(function (json) {
         if (json.loginOperation) {
-            window.location.href = BASE_URL + "dashboard"
+            window.location.href = BASE_URL + "eventSelection"
         } else {
             toastify(json.message, "failed")
         }
