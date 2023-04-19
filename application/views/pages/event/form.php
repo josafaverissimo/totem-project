@@ -107,7 +107,11 @@
                                             <div class="modal-content">
                                                 <img id="modal-full-image"
                                                     <?php if ($editMode): ?>
-                                                        src="<?= base_url("public/uploads/{$event['background']}"); ?>"
+                                                        <?php if (file_exists("public/uploads/{$event['background']}")): ?>
+                                                            src="<?= base_url("public/uploads/{$event['background']}"); ?>"
+                                                        <?php else: ?>
+                                                            src="<?= base_url("public/assets/imgs/no-image.jpeg"); ?>"
+                                                        <?php endif; ?>
                                                     <?php else: ?>
                                                         src="<?= base_url("public/assets/imgs/no-image.jpeg"); ?>"
                                                     <?php endif; ?>
@@ -118,7 +122,11 @@
                                 </div>
                                 <img id="background-handler"
                                     <?php if ($editMode): ?>
-                                        src="<?= base_url("public/uploads/{$event['background']}"); ?>"
+                                        <?php if (file_exists("public/uploads/{$event['background']}")): ?>
+                                            src="<?= base_url("public/uploads/{$event['background']}"); ?>"
+                                        <?php else: ?>
+                                            src="<?= base_url("public/assets/imgs/no-image.jpeg"); ?>"
+                                        <?php endif; ?>
                                     <?php else: ?>
                                         src="<?= base_url("public/assets/imgs/no-image.jpeg"); ?>"
                                     <?php endif; ?>

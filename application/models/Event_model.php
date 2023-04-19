@@ -46,7 +46,7 @@ class Event_model extends CI_Model
         endif;
     }
 
-    public function unlinkClientToEvent($eventId)
+    public function unlinkClientsToEvent($eventId)
     {
         $this->db->trans_begin();
 
