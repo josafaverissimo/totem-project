@@ -17,6 +17,7 @@ class Login extends CI_Controller
         endif;
 
         $data = [
+            "page" => "login",
             "title" => "Relive",
             "styles" => [
                 "public/assets/css/toastify.css"

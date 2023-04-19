@@ -1,7 +1,10 @@
 <script src="<?= base_url("public/assets/adminlte/plugins/jquery/jquery.min.js") ?>"></script>
 <script src="<?= base_url("public/assets/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js") ?>"></script>
 <script src="<?= base_url("public/assets/adminlte/dist/js/adminlte.min.js") ?>"></script>
-<script src="<?= base_url("public/assets/js/sidebar.js") ?>"></script>
+
+<?php if ($page !== "login"): ?>
+    <script src="<?= base_url("public/assets/js/sidebar.js") ?>"></script>
+<?php endif; ?>
 
 <?php
 if (isset($scripts)) :
