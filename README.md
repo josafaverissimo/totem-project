@@ -1,4 +1,6 @@
-# Totem Project
+# Totem Project (descontinuado)
+
+Novo repositório: https://github.com/josafaverissimo/ftotem
 
 Sistema para manter a base de dados de usuários, clientes e eventos.
 
